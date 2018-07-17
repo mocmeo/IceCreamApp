@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.activity.LoginActivity;
 import com.android.icecreamapp.activity.MainActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -74,7 +75,7 @@ public class AccountFragment extends Fragment {
                 mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
                         startActivity(intent);
                     }
                 });
