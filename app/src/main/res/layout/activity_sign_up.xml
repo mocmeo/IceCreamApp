@@ -6,25 +6,14 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@drawable/bg_login"
-    tools:context=".activity.LoginActivity">
-
+    tools:context=".activity.SignUpActivity">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_alignParentTop="true"
-            android:textAlignment="center"
-            android:text="Sign In"
-            android:textColor="#ffffff"
-            android:textSize="30dp"
-            android:visibility="gone"/>
+
 
         <LinearLayout
             android:id="@+id/linear"
@@ -37,12 +26,19 @@
             android:background="#fff"
             android:orientation="vertical"
             android:padding="40dp"
-            android:layout_below="@id/imgViewLogo"
-            android:visibility="gone"
-            >
-
+            android:layout_below="@id/imgViewLogo">
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true"
+                android:textAlignment="center"
+                android:text="Register"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="30dp"/>
             <EditText
-                android:id="@+id/edtLoginEmail"
+                android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
@@ -53,7 +49,7 @@
                 android:paddingLeft="15dp" />
 
             <EditText
-                android:id="@+id/edtLoginPassword"
+                android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
@@ -84,7 +80,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/buttonSignIn"
+                    android:id="@+id/buttonRegister"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
@@ -92,41 +88,11 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="#f24c26"
-                    android:text="Sign In"
+                    android:text="Register"
                     android:textColor="#ffffff" />
-
-                <Button
-                    android:id="@+id/buttonSignUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="1dp"
-                    android:background="#f24c26"
-                    android:text="Sign Up"
-                    android:textColor="#ffffff" />
-
-                <com.shaishavgandhi.loginbuttons.GoogleButton
-                    android:id="@+id/btnSignIn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Google"
-                    android:textAlignment="center"
-                    android:textColor="#212121"
-                    app:iconSize="30dp" />
 
             </LinearLayout>
         </LinearLayout>
-        <ImageView
-            android:id="@+id/imgViewLogo"
-            android:layout_width="115dp"
-            android:layout_height="115dp"
-            android:layout_centerInParent="true"
-            android:layout_below="@id/textViewTitle"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ice_cream_1" />
-    </RelativeLayout>
 
+    </RelativeLayout>
 </RelativeLayout>

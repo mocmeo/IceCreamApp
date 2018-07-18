@@ -1,5 +1,6 @@
 package com.android.icecreamapp.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,9 +10,11 @@ import android.support.annotation.TransitionRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.firebase.FirebaseApplication;
+import com.android.icecreamapp.util.Helper;
 import com.android.icecreamapp.util.TweakUI;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -49,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 9001;
-
+    private Button buttonSignIn, buttonSignUp;
     // For toolbar
     private Toolbar toolbar;
 
@@ -83,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
             textViewTitle = (TextView)findViewById(R.id.textViewTitle);
             imageLogo = (ImageView)findViewById(R.id.imgViewLogo);
 
-
-
             handler.postDelayed(runnable, 2000);
 
             mapping();
@@ -93,6 +96,31 @@ public class LoginActivity extends AppCompatActivity {
             TweakUI.makeTransparent(this);
             FirebaseUser user = mAuth.getCurrentUser();
             updateUI(user);
+
+            buttonSignIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String enteredEmail = edtEmail.getText().toString();
+                    String enteredPassword = edtPassword.getText().toString();
+
+                    if(TextUtils.isEmpty(enteredEmail) || TextUtils.isEmpty(enteredPassword)){
+                        Helper.displayMessageToast(LoginActivity.this, "Login fields must be filled");
+                        return;
+                    }
+                    if(!Helper.isValidEmail(enteredEmail)){
+                        Helper.displayMessageToast(LoginActivity.this, "Invalidate email entered");
+                        return;
+                    }
+                    ((FirebaseApplication)getApplication()).loginAUser(LoginActivity.this, enteredEmail, enteredPassword, textViewTitle);
+                }
+            });
+
+            buttonSignUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+                }
+            });
         }
 
     }
@@ -122,6 +150,8 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.btnSignIn);
         edtEmail = findViewById(R.id.edtLoginEmail);
         edtPassword = findViewById(R.id.edtLoginPassword);
+        buttonSignUp = findViewById(R.id.buttonSignUp);
+        buttonSignIn = findViewById(R.id.buttonSignIn);
     }
 
     private void configToolbar() {

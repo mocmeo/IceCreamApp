@@ -22,8 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.activity.EditProfileActivity;
 import com.android.icecreamapp.activity.LoginActivity;
 import com.android.icecreamapp.activity.MainActivity;
+import com.android.icecreamapp.firebase.FirebaseDatabaseHelper;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -68,14 +71,13 @@ public class AccountFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 //        toolbarTitle = rootView.findViewById(R.id.toolbar_title);
         imgUser = rootView.findViewById(R.id.img_user);
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getContext(), EditProfileActivity.class), Activity.RESULT_OK);
+            }
+        });
         btnSignOut = rootView.findViewById(R.id.btnSignOut);
-//
-//        Picasso.get()
-//                .load(R.drawable.my_user)
-//                .placeholder(R.drawable.no_image)
-//                .into(imgUser);
-
-//        configToolbar();
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +91,7 @@ public class AccountFragment extends Fragment {
                 });
             }
         });
+
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         bindDataUser(user, rootView);
@@ -114,36 +117,9 @@ public class AccountFragment extends Fragment {
         TextView tvNumber5 = (TextView) view.findViewById(R.id.tvNumber5);
 
         ImageView imageViewUser = (ImageView)view.findViewById(R.id.img_user);
-        if(user != null){
-            tvNumber1.setText(user.getPhoneNumber());
-            tvNumber3.setText(user.getEmail());
-            if (user.getPhotoUrl() != null) {
-                new DownloadImageTask(imageViewUser).execute(new String[]{user.getPhotoUrl().toString()});
-            }
-        }
-
+        FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
+        firebaseDatabaseHelper.isUserKeyExist(user, tvNumber1, tvNumber3, tvNumber5 );
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
 
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap bmp = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                bmp = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return bmp;
-        }
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 }
