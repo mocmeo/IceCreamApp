@@ -54,12 +54,13 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_user"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="89dp"
+        android:layout_height="103dp"
         android:layout_marginLeft="16dp"
         android:src="@mipmap/ic_launcher"
+        android:scaleType="centerCrop"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|start"/>
+        app:layout_anchorGravity="bottom|start" />
 
     <!--<android.support.v4.widget.NestedScrollView-->
         <!--android:layout_width="match_parent"-->

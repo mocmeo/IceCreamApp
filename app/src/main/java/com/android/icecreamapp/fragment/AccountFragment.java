@@ -3,6 +3,9 @@ package com.android.icecreamapp.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +30,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
+
+import java.io.InputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,6 +50,7 @@ public class AccountFragment extends Fragment {
 
     private GoogleSignInClient mGoogleSignInClient;
 
+    private FirebaseAuth mAuth;
     public AccountFragment() {
         // Required empty public constructor
     }
@@ -81,6 +89,10 @@ public class AccountFragment extends Fragment {
                 });
             }
         });
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        bindDataUser(user, rootView);
+
         return rootView;
     }
 
@@ -95,4 +107,43 @@ public class AccountFragment extends Fragment {
         }
     }
 
+    private void bindDataUser(FirebaseUser user, View view){
+
+        TextView tvNumber1 = (TextView) view.findViewById(R.id.tvNumber1);
+        TextView tvNumber3= (TextView) view.findViewById(R.id.tvNumber3);
+        TextView tvNumber5 = (TextView) view.findViewById(R.id.tvNumber5);
+
+        ImageView imageViewUser = (ImageView)view.findViewById(R.id.img_user);
+        if(user != null){
+            tvNumber1.setText(user.getPhoneNumber());
+            tvNumber3.setText(user.getEmail());
+            if (user.getPhotoUrl() != null) {
+                new DownloadImageTask(imageViewUser).execute(new String[]{user.getPhotoUrl().toString()});
+            }
+        }
+
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap bmp = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                bmp = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
 }

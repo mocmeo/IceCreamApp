@@ -1,103 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activity.LoginActivity"
-    android:background="@drawable/bg_login">
+    android:animateLayoutChanges="true"
+    android:background="@drawable/bg_login"
+    tools:context=".activity.LoginActivity">
 
-    <TextView
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:gravity="center"
-        android:text="Sign In"
-        android:textColor="#ffffff"
-        android:textSize="30dp" />
-
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="130dp"
-        android:background="#fff"
-        android:orientation="vertical"
-        android:padding="40dp">
-
-        <EditText
-            android:id="@+id/edtLoginEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:drawableLeft="@drawable/ic_person_black_24dp"
-            android:drawablePadding="10dp"
-            android:gravity="fill"
-            android:hint="Email"
-            android:paddingLeft="15dp" />
-
-        <EditText
-            android:id="@+id/edtLoginPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/ic_lock_black_24dp"
-            android:drawablePadding="10dp"
-            android:gravity="fill"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingLeft="15dp" />
-
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
         <TextView
+            android:id="@+id/textViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:drawablePadding="10dp"
-            android:gravity="end"
-            android:paddingLeft="5dp"
-            android:paddingRight="10dp"
-            android:text="Forget password ?"
-            android:textColor="#f26422" />
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:textAlignment="center"
+            android:text="Sign In"
+            android:textColor="#ffffff"
+            android:textSize="30dp"
+            android:visibility="gone"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/linear"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-50dp"
+            android:background="#fff"
+            android:orientation="vertical"
+            android:padding="40dp"
+            android:layout_below="@id/imgViewLogo"
+            android:visibility="gone"
+            >
 
-            <Button
+            <EditText
+                android:id="@+id/edtLoginEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:drawablePadding="10dp"
+                android:gravity="fill"
+                android:hint="Email"
+                android:paddingLeft="15dp" />
+
+            <EditText
+                android:id="@+id/edtLoginPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawablePadding="10dp"
+                android:gravity="fill"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingLeft="15dp" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:background="#f24c26"
-                android:text="Sign in"
-                android:textColor="#ffffff" />
+                android:layout_marginTop="5dp"
+                android:drawablePadding="10dp"
+                android:gravity="end"
+                android:paddingLeft="5dp"
+                android:paddingRight="10dp"
+                android:text="Forget password ?"
+                android:textColor="#f26422" />
 
-            <com.shaishavgandhi.loginbuttons.GoogleButton
-                android:id="@+id/btnSignIn"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Google"
-                android:textAlignment="center"
-                android:textColor="#212121"
-                app:iconSize="30dp" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:background="#f24c26"
+                    android:text="Sign in"
+                    android:textColor="#ffffff" />
+
+                <com.shaishavgandhi.loginbuttons.GoogleButton
+                    android:id="@+id/btnSignIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Google"
+                    android:textAlignment="center"
+                    android:textColor="#212121"
+                    app:iconSize="30dp" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/imgViewLogo"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/textViewTitle"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ice_cream_1" />
+    </RelativeLayout>
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="75dp"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/image" />
-</FrameLayout>
+</RelativeLayout>

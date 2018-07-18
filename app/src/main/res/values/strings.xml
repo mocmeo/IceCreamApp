@@ -6,4 +6,14 @@
     <string name="nav_home">Home</string>
     <string name="nav_cart">Cart</string>
     <string name="nav_person">Account</string>
+    <string-array name="list_logo_name">
+        <item>ice_cream_1</item>
+        <item>ice_cream_2</item>
+        <item>ice_cream_3</item>
+        <item>ice_cream_4</item>
+        <item>ice_cream_5</item>
+        <item>ice_cream_6</item>
+        <item>ice_cream_7</item>
+        <item>ice_cream_8</item>
+    </string-array>
 </resources>

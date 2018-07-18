@@ -17,7 +17,11 @@ android {
         }
     }
 }
-
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
@@ -39,7 +43,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'in.championswimmer:Android-SocialButtons:1.3'
     implementation 'com.shaishavgandhi:login-buttons:1.0.0'
-
+    implementation 'com.github.apl-devs:appintro:v4.2.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
