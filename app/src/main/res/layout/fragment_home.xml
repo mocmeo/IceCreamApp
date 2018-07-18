@@ -11,8 +11,8 @@
     <android.support.v7.widget.Toolbar
         android:background="@color/colorPrimaryDark"
         app:titleTextColor="@color/colorWhite"
-        app:title="Dien thoai"
-        android:id="@+id/toolbarPhone"
+        app:title="Ice Cream"
+        android:id="@+id/toolbarHome"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
     </android.support.v7.widget.Toolbar>
