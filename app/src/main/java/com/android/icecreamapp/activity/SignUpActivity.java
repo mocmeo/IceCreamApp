@@ -22,9 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Button buttonRegister;
+    private Button buttonRegister, buttonCancel;
     private EditText editTextEmail, editTextPassword;
-    private TextView errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,13 @@ public class SignUpActivity extends AppCompatActivity {
                     Helper.displayMessageToast(SignUpActivity.this, "Invalidate email entered");
                     return;
                 }
-                ((FirebaseApplication)getApplication()).createNewUser(SignUpActivity.this, enteredEmail, enteredPassword, errorMessage);
+                ((FirebaseApplication)getApplication()).createNewUser(SignUpActivity.this, enteredEmail, enteredPassword);
+            }
+        });
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -54,6 +59,6 @@ public class SignUpActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.buttonRegister);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
-        errorMessage = findViewById(R.id.textViewTitle);
+        buttonCancel = findViewById(R.id.buttonCancel);
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.android.icecreamapp.activity.HomeActivity;
+import com.android.icecreamapp.activity.LoginActivity;
 import com.android.icecreamapp.util.Helper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,47 +22,12 @@ public class FirebaseApplication extends Application {
 
     public FirebaseAuth firebaseAuth;
 
-    public FirebaseAuth.AuthStateListener mAuthListener;
 
     public void getFirebaseAuth(){
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public String getFirebaseUserAuthenticateId() {
-        getFirebaseAuth();
-        String userId = null;
-        if(firebaseAuth.getCurrentUser() != null){
-            userId = firebaseAuth.getCurrentUser().getUid();
-        }
-        return userId;
-    }
-
-//    public void checkUserLogin(final Context context){
-//        getFirebaseAuth();
-//        if(firebaseAuth.getCurrentUser() != null){
-//            Intent profileIntent = new Intent(context, ProfileActivity.class);
-//            context.startActivity(profileIntent);
-//        }
-//    }
-
-//    public void isUserCurrentlyLogin(final Context context){
-//        getFirebaseAuth();
-//        mAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser user = firebaseAuth.getCurrentUser();
-//                if(null != user){
-//                    Intent profileIntent = new Intent(context, ProfileActivity.class);
-//                    context.startActivity(profileIntent);
-//                }else{
-//                    Intent loginIntent = new Intent(context, LoginActivity.class);
-//                    context.startActivity(loginIntent);
-//                }
-//            }
-//        };
-//    }
-
-    public void createNewUser(Context context, String email, String password, final TextView errorMessage){
+    public void createNewUser(final Context context, String email, String password){
         getFirebaseAuth();
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
@@ -69,13 +35,15 @@ public class FirebaseApplication extends Application {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                 if (!task.isSuccessful()) {
-                    errorMessage.setText("Failed to login. Invalid user");
+                    Helper.displayMessageToast(context, "Register fail!");
+                }else{
+                    Helper.displayMessageToast(context, "Register successful!");
                 }
             }
         });
     }
 
-    public void loginAUser(final Context context, String email, String password, final TextView errorMessage){
+    public void loginAUser(final Context context, String email, String password){
         getFirebaseAuth();
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Activity)context, new OnCompleteListener<AuthResult>() {
@@ -83,7 +51,7 @@ public class FirebaseApplication extends Application {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail", task.getException());
-                            errorMessage.setText("Failed to login");
+                            Helper.displayMessageToast(context, "Failed to login");
                         }else {
                             Helper.displayMessageToast(context, "User has been login");
                             Intent profileIntent = new Intent(context, HomeActivity.class);
