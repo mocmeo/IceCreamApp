@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         initFragment();
         fragmentHandler();
 
-        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
+        mMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
         setFragment(homeFragment);
     }
 
@@ -55,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_home:
-                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
+                        mMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
                         setFragment(homeFragment);
                         return true;
                     case R.id.nav_cart:
@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
                         setFragment(cartFragment);
                         return true;
                     case R.id.nav_account:
-                        mMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
+                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
                         setFragment(accountFragment);
                         return true;
 
