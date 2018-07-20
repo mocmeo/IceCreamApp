@@ -48,7 +48,8 @@ public class IntroActivity extends AppIntro {
     }
 
     private void handleIntro(){
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+        overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
         SharedPreferences pref = getSharedPreferences("app-config", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean("firstTime", false);

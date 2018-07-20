@@ -26,44 +26,31 @@
             app:srcCompat="@drawable/logo_app" />
 
         <EditText
-            android:id="@+id/edtLoginEmail"
+            android:id="@+id/editTextEmail"
             style="@style/edit_text_style"
             android:hint="Email address"
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/edtLoginPassword"
+            android:id="@+id/editTextPassword"
             android:hint="Password"
             style="@style/edit_text_style"
             android:inputType="textPassword" />
-
-        <TextView
-            style="@style/text_view_style"
-            android:text="Forgot your password?"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <Button
-                android:id="@+id/buttonSignIn"
-                android:text="Sign In"
+                android:id="@+id/buttonRegister"
+                android:text="Register"
                 style="@style/button_style"
                 android:autoLink="web"/>
 
             <Button
-                android:id="@+id/buttonSignUp"
+                android:id="@+id/buttonCancel"
                 style="@style/button_style"
-                android:text="Sign Up" />
+                android:text="Cancel" />
         </LinearLayout>
-        <com.shaishavgandhi.loginbuttons.GoogleButton
-            android:id="@+id/btnSignIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign in with Google"
-            android:layout_gravity="center"
-            android:textColor="#212121"
-            android:background="@drawable/button_google_background"
-            app:iconSize="30dp" />
 
     </LinearLayout>
 </RelativeLayout>
