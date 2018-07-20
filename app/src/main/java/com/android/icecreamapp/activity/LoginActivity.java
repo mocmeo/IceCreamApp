@@ -39,12 +39,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
-    private GoogleButton btnSignIn;
+    private GoogleButton btnGoogleSignIn;
     private EditText edtEmail, edtPassword;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 9001;
-    private Button buttonSignIn, buttonSignUp;
+    private Button buttonSignIn;
+    private TextView textViewSignUp;
     // For toolbar
     private Toolbar toolbar;
 
@@ -79,10 +80,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+        textViewSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+                overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
             }
         });
 
@@ -90,11 +92,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void mapping() {
         toolbar = findViewById(R.id.toolbar);
-        btnSignIn = findViewById(R.id.btnSignIn);
+        btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn);
         edtEmail = findViewById(R.id.edtLoginEmail);
         edtPassword = findViewById(R.id.edtLoginPassword);
-        buttonSignUp = findViewById(R.id.buttonSignUp);
         buttonSignIn = findViewById(R.id.buttonSignIn);
+        textViewSignUp = findViewById(R.id.textViewSignUp);
     }
 
     private void configToolbar() {
@@ -118,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
+        btnGoogleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();

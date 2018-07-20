@@ -51,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.anim_back, R.anim.anim_exit_back);
             }
         });
     }
