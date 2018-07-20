@@ -1,20 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.HomeActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:background="@color/colorPrimaryDark"
-        app:titleTextColor="@color/colorWhite"
-        app:title="Ice Cream"
-        android:id="@+id/toolbarHome"
+    <android.support.v4.widget.NestedScrollView
+        android:background="#EEEEEE"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarHome"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#1565C0"
+                app:theme="@style/ToolbarColoredBackArrow"
+                app:titleTextColor="@color/colorWhite">
+            </android.support.v7.widget.Toolbar>
+
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/sliderHome"
+                android:layout_width="match_parent"
+                android:layout_height="220dp">
+            </com.daimajia.slider.library.SliderLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="3dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="#616161"
+                    android:layout_margin="5dp"
+                    android:text="Milkshake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvMilkshakeHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                </android.support.v7.widget.RecyclerView>
+
+                <include layout="@layout/item_divider" />
+
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="#616161"
+                    android:layout_margin="5dp"
+                    android:text="Ice Cream"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rvIcecreamHome"
+                    android:orientation="vertical">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

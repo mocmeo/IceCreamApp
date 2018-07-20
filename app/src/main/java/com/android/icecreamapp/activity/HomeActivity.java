@@ -24,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
     private CartFragment cartFragment;
     private AccountFragment accountFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,6 @@ public class HomeActivity extends AppCompatActivity {
 
         mMainNav.setItemBackgroundResource(R.color.colorPrimary);
         setFragment(homeFragment);
-
     }
 
     private void mapping() {
