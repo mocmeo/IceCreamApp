@@ -1,6 +1,7 @@
 package com.android.icecreamapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.activity.ProductDetailActivity;
 import com.android.icecreamapp.model.Product;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -56,6 +58,10 @@ public class IcecreamHomeAdapter extends RecyclerView.Adapter<IcecreamHomeAdapte
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, mProducts.get(position).name, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                intent.putExtra("product_detail", mProducts.get(position));
+                mContext.startActivity(intent);
             }
         });
     }
