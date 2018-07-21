@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.android.icecreamapp.R;
 import com.android.icecreamapp.firebase.FirebaseApplication;
 import com.android.icecreamapp.util.Helper;
+import com.android.icecreamapp.util.TweakUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,7 +30,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         mapping();
+        TweakUI.makeTransparent(this);
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
