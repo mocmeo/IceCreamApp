@@ -1,9 +1,17 @@
 package com.android.icecreamapp.fragment;
 
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.transition.TransitionManager;
@@ -14,11 +22,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.icecreamapp.Model.IceCream;
 import com.android.icecreamapp.R;
 import com.android.icecreamapp.adapter.IceCreamAdapter;
+import com.android.icecreamapp.firebase.FirebaseApplication;
 import com.android.icecreamapp.firebase.FirebaseDatabaseHelper;
+import com.android.icecreamapp.firebase.FirebaseStorageHelper;
+import com.android.icecreamapp.util.Helper;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -39,16 +52,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * A simple {@link Fragment} subclass.
  */
 public class AccountFragment extends Fragment {
-    private static final String TAG = "AccountFragment";
-
-    private TextView toolbarTitle;
-    private Toolbar toolbar;
-    private CircleImageView imgUser;
-    private Button btnSignOut;
+    private static final int REQUEST_READ_PERMISSION = 120;
 
     private GoogleSignInClient mGoogleSignInClient;
 
     private FirebaseAuth mAuth;
+
     public AccountFragment() {
         // Required empty public constructor
     }
@@ -57,41 +66,6 @@ public class AccountFragment extends Fragment {
     private ConstraintSet layout1, layout2;
     private ConstraintLayout constraintLayout;
     private ImageView imageViewPhoto;
-    private TextView txt_bio;
-
-    ListView listViewIceCream;
-    IceCreamAdapter iceCreamAdapter;
-    List<IceCream> arrIceCream;
-    DatabaseReference dbIceCream;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        dbIceCream.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                arrIceCream.clear();
-
-                for (DataSnapshot artistSnapshot : dataSnapshot.getChildren()) {
-                    IceCream iceCream = artistSnapshot.getValue(IceCream.class);
-
-                    arrIceCream.add(iceCream);
-                }
-                iceCreamAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,27 +76,12 @@ public class AccountFragment extends Fragment {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
-        // Inflate the layout for this fragment
-//        View rootView = inflater.inflate(R.layout.fragment_account, container, false);
         View rootView = inflater.inflate(R.layout.activity_profile, container, false);
-
-//        Window w = rootView.window
-
-        dbIceCream = FirebaseDatabase.getInstance().getReference("IceCream");
-
-        listViewIceCream = (ListView) rootView.findViewById(R.id.listViewDemo);
-        arrIceCream = new ArrayList<>();
-
-        iceCreamAdapter = new IceCreamAdapter(rootView.getContext(), R.layout.list_ice_cream, arrIceCream);
-        listViewIceCream.setAdapter(iceCreamAdapter);
-
-
-
 
         layout1 = new ConstraintSet();
         layout2 = new ConstraintSet();
+
         imageViewPhoto = rootView.findViewById(R.id.photo);
-//        txt_bio = rootView.findViewById(R.id.txt_bio);
 
         constraintLayout = rootView.findViewById(R.id.constraint_layout);
         layout2.clone(rootView.getContext(),R.layout.profile_expanded);
@@ -144,45 +103,56 @@ public class AccountFragment extends Fragment {
         });
 
 
-//        imgUser = rootView.findViewById(R.id.img_user);
-//        imgUser.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivityForResult(new Intent(getContext(), EditProfileActivity.class), Activity.RESULT_OK);
-//            }
-//        });
-//        btnSignOut = rootView.findViewById(R.id.btnSignOut);
-//        btnSignOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FirebaseAuth.getInstance().signOut();
-//                mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-//                        startActivity(intent);
-//                    }
-//                });
-//            }
-//        });
-//
-//        mAuth = FirebaseAuth.getInstance();
-//        FirebaseUser user = mAuth.getCurrentUser();
-//        bindDataUser(user, rootView);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        bindDataUser(user, rootView);
+
+        TextView textView2 = rootView.findViewById(R.id.textView2);
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, Helper.SELECT_PICTURE);
+            }
+        });
 
         return rootView;
     }
 
     private void bindDataUser(FirebaseUser user, View view){
 
-        TextView tvNumber1 = (TextView) view.findViewById(R.id.tvNumber1);
-        TextView tvNumber3= (TextView) view.findViewById(R.id.tvNumber3);
-        TextView tvNumber5 = (TextView) view.findViewById(R.id.tvNumber5);
-
-        ImageView imageViewUser = (ImageView)view.findViewById(R.id.img_user);
-        FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
-        firebaseDatabaseHelper.isUserKeyExist(user, tvNumber1, tvNumber3, tvNumber5 );
+//        TextView tvNumber1 = (TextView) view.findViewById(R.id.tvNumber1);
+//        TextView tvNumber3= (TextView) view.findViewById(R.id.tvNumber3);
+//        TextView tvNumber5 = (TextView) view.findViewById(R.id.tvNumber5);
+//
+//
+//        FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
+//        firebaseDatabaseHelper.isUserKeyExist(user, tvNumber1, tvNumber3, tvNumber5 );
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("user id has entered onActivityResult ");
+        if (requestCode == Helper.SELECT_PICTURE) {
+            Uri selectedImageUri = data.getData();
+            FirebaseStorageHelper storageHelper = new FirebaseStorageHelper(getActivity());
 
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION);
+                return;
+            }
+            String id = ((FirebaseApplication)getActivity().getApplication()).getFirebaseUserAuthenticateId();
+            storageHelper.saveProfileImageToCloud(id, selectedImageUri, imageViewPhoto);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(getActivity(), "Sorry!!!, you can't use this app without granting this permission", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

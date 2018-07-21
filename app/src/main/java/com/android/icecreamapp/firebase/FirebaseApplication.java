@@ -27,6 +27,16 @@ public class FirebaseApplication extends Application {
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    public String getFirebaseUserAuthenticateId() {
+        getFirebaseAuth();
+        String userId = null;
+        if(firebaseAuth.getCurrentUser() != null){
+            userId = firebaseAuth.getCurrentUser().getUid();
+        }
+        return userId;
+    }
+
+
     public void createNewUser(final Context context, String email, String password){
         getFirebaseAuth();
         firebaseAuth.createUserWithEmailAndPassword(email, password)
