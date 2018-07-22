@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,10 +33,10 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin">
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
 
                     <ToggleButton
                         android:id="@+id/chkState"
@@ -51,12 +51,11 @@
                         android:id="@+id/btnShare"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
+                        android:layout_marginLeft="15dp"
                         android:background="@null"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/btn_share"
-                        android:layout_marginLeft="5dp"/>
+                        android:src="@drawable/btn_share" />
                 </LinearLayout>
-
 
             </RelativeLayout>
 
@@ -78,8 +77,73 @@
 
         </LinearLayout>
 
+    </android.support.v7.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/desc_product_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lorem isum"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments &amp; Rating"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srb_borderColor="@color/blue"
+                app:srb_numberOfStars="5"
+                app:srb_rating="3"
+                app:srb_starSize="25dp"
+                app:srb_stepSize="0.5"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
+    <TextView
+        android:textSize="18sp"
+        android:textColor="#01579B"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:text="● Related Products"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvProductRelated"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

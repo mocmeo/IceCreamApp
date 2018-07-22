@@ -22,6 +22,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MilkshakeHomeAdapter extends RecyclerView.Adapter<MilkshakeHomeAdapter.ViewHolder> {
@@ -58,7 +59,9 @@ public class MilkshakeHomeAdapter extends RecyclerView.Adapter<MilkshakeHomeAdap
                 .load(mProducts.get(position).image)
                 .into(holder.image);
 
-        holder.imageName.setText(mProducts.get(position).name);
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        holder.price.setText(decimalFormat.format(mProducts.get(position).getPrice()) + " đ̲");
+        holder.name.setText(mProducts.get(position).name);
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,13 +82,15 @@ public class MilkshakeHomeAdapter extends RecyclerView.Adapter<MilkshakeHomeAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView imageName;
+        TextView name;
+        TextView price;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            image = itemView.findViewById(R.id.image_home_milkshake);
-            imageName = itemView.findViewById(R.id.image_name_home_milkshake);
+            image = itemView.findViewById(R.id.image_milkshake_home);
+            name = itemView.findViewById(R.id.name_milkshake_home);
+            price = itemView.findViewById(R.id.price_milkshake_home);
         }
     }
 }

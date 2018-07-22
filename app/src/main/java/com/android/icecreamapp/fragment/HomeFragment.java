@@ -29,6 +29,7 @@ import com.android.icecreamapp.R;
 import com.android.icecreamapp.adapter.IcecreamHomeAdapter;
 import com.android.icecreamapp.adapter.MilkshakeHomeAdapter;
 import com.android.icecreamapp.model.Product;
+import com.android.icecreamapp.util.TweakUI;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.google.firebase.database.ChildEventListener;
@@ -47,7 +48,7 @@ public class HomeFragment extends Fragment {
 
     private static final int NUM_COLUMNS = 2;
 
-    private Toolbar toolbar;
+//    private Toolbar toolbar;
     private AppCompatActivity currentActivity;
     private SliderLayout sliderShow;
     private int[] slideImages = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3, R.drawable.slider4};
@@ -104,12 +105,12 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        toolbar = rootView.findViewById(R.id.toolbarHome);
+//        toolbar = rootView.findViewById(R.id.toolbarHome);
         currentActivity = (AppCompatActivity) getActivity();
         mData = FirebaseDatabase.getInstance().getReference();
 
         if (currentActivity != null) {
-            currentActivity.setSupportActionBar(toolbar);
+//            currentActivity.setSupportActionBar(toolbar);
             setupSlider(rootView);
             initRecyclerView(rootView);
             initImageBitmaps();
