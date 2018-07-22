@@ -24,6 +24,43 @@
                 android:id="@+id/image_home_milkshake"
                 android:src="@mipmap/ic_launcher"/>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_alignBottom="@+id/image_home_milkshake"
+                android:layout_marginRight="15dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.5"
+                    android:background="#212121" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/milkshake_label" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="MILKSHAKE"
+                        android:textColor="#FBC02D"
+                        android:textSize="12sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+            </FrameLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
