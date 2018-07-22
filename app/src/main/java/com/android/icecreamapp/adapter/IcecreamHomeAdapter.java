@@ -18,6 +18,7 @@ import com.android.icecreamapp.model.Product;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class IcecreamHomeAdapter extends RecyclerView.Adapter<IcecreamHomeAdapter.ViewHolder> {
@@ -53,7 +54,10 @@ public class IcecreamHomeAdapter extends RecyclerView.Adapter<IcecreamHomeAdapte
                 .load(mProducts.get(position).image)
                 .into(holder.image);
 
-        holder.imageName.setText(mProducts.get(position).name);
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+
+        holder.price.setText(decimalFormat.format(mProducts.get(position).getPrice()) + " đ̲");
+        holder.name.setText(mProducts.get(position).name);
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,13 +77,15 @@ public class IcecreamHomeAdapter extends RecyclerView.Adapter<IcecreamHomeAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView imageName;
+        TextView name;
+        TextView price;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            image = itemView.findViewById(R.id.image_home_icecream);
-            imageName = itemView.findViewById(R.id.image_name_home_icecream);
+            image = itemView.findViewById(R.id.image_icecream_home);
+            name = itemView.findViewById(R.id.name_icecream_home);
+            price = itemView.findViewById(R.id.price_icecream_home);
         }
     }
 }

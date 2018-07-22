@@ -51,6 +51,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setIcon(R.drawable.btn_back);
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
