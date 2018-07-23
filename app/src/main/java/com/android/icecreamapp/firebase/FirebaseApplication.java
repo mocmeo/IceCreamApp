@@ -6,11 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.android.icecreamapp.activity.HomeActivity;
-import com.android.icecreamapp.activity.LoginActivity;
-import com.android.icecreamapp.util.Helper;
+import com.android.icecreamapp.util.UserHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -45,9 +43,9 @@ public class FirebaseApplication extends Application {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                 if (!task.isSuccessful()) {
-                    Helper.displayMessageToast(context, "Register fail!");
+                    UserHelper.displayMessageToast(context, "Register fail!");
                 }else{
-                    Helper.displayMessageToast(context, "Register successful!");
+                    UserHelper.displayMessageToast(context, "Register successful!");
                 }
             }
         });
@@ -61,9 +59,9 @@ public class FirebaseApplication extends Application {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail", task.getException());
-                            Helper.displayMessageToast(context, "Failed to login");
+                            UserHelper.displayMessageToast(context, "Failed to login");
                         }else {
-                            Helper.displayMessageToast(context, "User has been login");
+                            UserHelper.displayMessageToast(context, "User has been login");
                             Intent profileIntent = new Intent(context, HomeActivity.class);
                             context.startActivity(profileIntent);
                         }

@@ -4,15 +4,12 @@ package com.android.icecreamapp.firebase;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.ImageView;
 
-import com.android.icecreamapp.util.Helper;
+import com.android.icecreamapp.util.UserHelper;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -65,10 +62,10 @@ public class FirebaseStorageHelper {
                     Uri downloadUri = task.getResult();
                     Glide.with(context).load(downloadUri).into(imageView);
                     databaseReference.child("users").child(userId).child("imageUrl").setValue(downloadUri.toString());
-                    Helper.displayMessageToast(context, "Update avatar successful!");
+                    UserHelper.displayMessageToast(context, "Update avatar successful!");
                 } else {
                     // Handle failures
-                    Helper.displayMessageToast(context, "Update avatar fail!");
+                    UserHelper.displayMessageToast(context, "Update avatar fail!");
                     // ...
                 }
             }

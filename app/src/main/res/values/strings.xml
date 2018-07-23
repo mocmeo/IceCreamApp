@@ -6,6 +6,7 @@
     <string name="nav_home">Home</string>
     <string name="nav_cart">Cart</string>
     <string name="nav_person">Account</string>
+    <string name="nav_search">Search</string>
     <string-array name="list_logo_name">
         <item>ice_cream_1</item>
         <item>ice_cream_2</item>

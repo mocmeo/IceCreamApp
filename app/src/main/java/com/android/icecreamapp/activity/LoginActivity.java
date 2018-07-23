@@ -1,8 +1,6 @@
 package com.android.icecreamapp.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,20 +10,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.icecreamapp.R;
 import com.android.icecreamapp.firebase.FirebaseApplication;
-import com.android.icecreamapp.util.Helper;
+import com.android.icecreamapp.util.UserHelper;
 import com.android.icecreamapp.util.TweakUI;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -69,11 +65,11 @@ public class LoginActivity extends AppCompatActivity {
                 String enteredPassword = edtPassword.getText().toString();
 
                 if (TextUtils.isEmpty(enteredEmail) || TextUtils.isEmpty(enteredPassword)) {
-                    Helper.displayMessageToast(LoginActivity.this, "Login fields must be filled");
+                    UserHelper.displayMessageToast(LoginActivity.this, "Login fields must be filled");
                     return;
                 }
-                if (!Helper.isValidEmail(enteredEmail)) {
-                    Helper.displayMessageToast(LoginActivity.this, "Invalidate email entered");
+                if (!UserHelper.isValidEmail(enteredEmail)) {
+                    UserHelper.displayMessageToast(LoginActivity.this, "Invalidate email entered");
                     return;
                 }
                 ((FirebaseApplication) getApplication()).loginAUser(LoginActivity.this, enteredEmail, enteredPassword);

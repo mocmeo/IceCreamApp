@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:editTextColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
+        <item name="colorControlHighlight">@color/colorPrimaryRipple</item>
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">

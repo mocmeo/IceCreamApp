@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_home"
+        android:enabled="true"
+        android:icon="@drawable/baseline_home_white"
+        android:title="@string/nav_home"
+        app:showAsAction="always|withText" />
+
+    <item
+        android:id="@+id/nav_search"
+        android:enabled="true"
+        android:icon="@drawable/baseline_search_white"
+        android:title="@string/nav_search"
+        app:showAsAction="always|withText" />
+
+    <item
+        android:id="@+id/nav_cart"
+        android:enabled="true"
+        android:icon="@drawable/baseline_cart_white"
+        android:title="@string/nav_cart"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/nav_account"
+        android:enabled="true"
+        android:icon="@drawable/baseline_person_white"
+        android:title="@string/nav_person"
+        app:showAsAction="always|withText" />
+
+</menu>

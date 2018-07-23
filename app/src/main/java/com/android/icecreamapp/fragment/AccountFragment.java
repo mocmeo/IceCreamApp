@@ -23,7 +23,7 @@ import com.android.icecreamapp.firebase.FirebaseApplication;
 import com.android.icecreamapp.firebase.FirebaseDatabaseHelper;
 import com.android.icecreamapp.firebase.FirebaseStorageHelper;
 import com.android.icecreamapp.firebase.FirebaseUserEntity;
-import com.android.icecreamapp.util.Helper;
+import com.android.icecreamapp.util.UserHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -129,10 +129,10 @@ public class AccountFragment extends Fragment {
                 String reAuthPassword = textViewOldPassword.getText().toString();
                 final String newPassword = textViewPassword.getText().toString();
                 if(TextUtils.isEmpty(reAuthPassword)){
-                    Helper.displayMessageToast(getContext(), "Old password field must be filled");
+                    UserHelper.displayMessageToast(getContext(), "Old password field must be filled");
                 }
                 else if(TextUtils.isEmpty(newPassword)){
-                    Helper.displayMessageToast(getContext(), "New password field must be filled");
+                    UserHelper.displayMessageToast(getContext(), "New password field must be filled");
                 }else{
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     // Get auth credentials from the user for re-authentication
@@ -151,10 +151,10 @@ public class AccountFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        Helper.displayMessageToast(getContext(), "Update Password success");
+                                                        UserHelper.displayMessageToast(getContext(), "Update Password success");
                                                         settingEditAccount(false);
                                                     }else{
-                                                        Helper.displayMessageToast(getContext(), "Password should be at least 6 characters");
+                                                        UserHelper.displayMessageToast(getContext(), "Password should be at least 6 characters");
                                                     }
                                                 }
                                             });
@@ -163,7 +163,7 @@ public class AccountFragment extends Fragment {
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Helper.displayMessageToast(getContext(), "Old password incorrect!");
+                            UserHelper.displayMessageToast(getContext(), "Old password incorrect!");
                         }
                     });
                 }
@@ -175,7 +175,7 @@ public class AccountFragment extends Fragment {
             public void onClick(View v) {
                 final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, Helper.SELECT_PICTURE);
+                startActivityForResult(galleryIntent, UserHelper.SELECT_PICTURE);
             }
         });
 
@@ -287,7 +287,7 @@ public class AccountFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("user id has entered onActivityResult ");
-        if (requestCode == Helper.SELECT_PICTURE) {
+        if (requestCode == UserHelper.SELECT_PICTURE) {
             Uri selectedImageUri = data.getData();
             FirebaseStorageHelper storageHelper = new FirebaseStorageHelper(getActivity());
 

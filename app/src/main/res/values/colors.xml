@@ -19,6 +19,7 @@
     <color name="slide3">#9c27b0</color>
 
     <color name="blue">#0277BD</color>
+    <color name="colorPrimaryRipple">#0277BD</color>
 
     <color name="information_color">#757575</color>
 </resources>

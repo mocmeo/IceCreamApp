@@ -4,7 +4,7 @@ package com.android.icecreamapp.util;
 import android.content.Context;
 import android.widget.Toast;
 
-public class Helper {
+public class UserHelper {
 
     public static final String NAME = "Name";
 
