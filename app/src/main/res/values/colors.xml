@@ -17,4 +17,6 @@
     <color name="slide1">#f44336</color>
     <color name="slide2">#e91e63</color>
     <color name="slide3">#9c27b0</color>
+
+    <color name="blue">#0277BD</color>
 </resources>

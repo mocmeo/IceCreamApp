@@ -7,7 +7,7 @@ public class Product implements Serializable {
 
     public int id;
     public String name;
-    public double price;
+    public long price;
     public String image;
     public String description;
     public int idType;
@@ -15,7 +15,7 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    private Product(int id, String name, double price, String image, String description, int idType) {
+    private Product(int id, String name, long price, String image, String description, int idType) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -24,7 +24,7 @@ public class Product implements Serializable {
         this.idType = idType;
     }
 
-    public static Product generateProduct(String name, double price, String image, String description, int idType) {
+    public static Product generateProduct(String name, long price, String image, String description, int idType) {
         return new Product(++ID, name, price, image, description, idType);
     }
 
@@ -44,11 +44,11 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public double getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
