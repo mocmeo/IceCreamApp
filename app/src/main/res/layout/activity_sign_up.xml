@@ -38,14 +38,14 @@
         <EditText
             style="@style/edit_text_style"
             android:id="@+id/editTextEmail"
-            android:drawableLeft="@drawable/ic_email_black"
+            android:drawableLeft="@drawable/ic_email"
             android:hint="Email address"
             android:inputType="textEmailAddress" />
 
         <EditText
             style="@style/edit_text_style"
             android:id="@+id/editTextPassword"
-            android:drawableLeft="@drawable/ic_lock_black_24dp"
+            android:drawableLeft="@drawable/ic_lock_24dp"
             android:hint="Password"
             android:inputType="textPassword" />
         <LinearLayout

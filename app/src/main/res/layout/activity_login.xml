@@ -39,14 +39,14 @@
         <EditText
             style="@style/edit_text_style"
             android:id="@+id/edtLoginEmail"
-            android:drawableLeft="@drawable/ic_email_black"
+            android:drawableLeft="@drawable/ic_email"
             android:hint="Email address"
             android:inputType="textEmailAddress" />
 
         <EditText
             style="@style/edit_text_style"
             android:id="@+id/edtLoginPassword"
-            android:drawableLeft="@drawable/ic_lock_black_24dp"
+            android:drawableLeft="@drawable/ic_lock_24dp"
             android:hint="Password"
             android:inputType="textPassword" />
 

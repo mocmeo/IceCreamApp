@@ -57,6 +57,7 @@ public class AccountFragment extends Fragment {
 
     ImageView imageViewEditAccount;
     ImageView imageViewSaveAccount;
+    ImageView imageViewCancelEditAccount;
     ImageView imageViewEditProfile;
     ImageView imageViewSaveProfile;
     ImageView imageViewCancelEdit;
@@ -114,10 +115,15 @@ public class AccountFragment extends Fragment {
                 settingEditAccount(true);
             }
         });
+        imageViewCancelEditAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingEditAccount(false);
+            }
+        });
         imageViewSaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 String reAuthEmail = textViewAccount.getText().toString();
                 String reAuthPassword = textViewOldPassword.getText().toString();
@@ -203,9 +209,9 @@ public class AccountFragment extends Fragment {
             textViewPhone.setBackgroundColor(Color.TRANSPARENT);
             textViewEmail.setBackgroundColor(Color.TRANSPARENT);
             textViewAddress.setBackgroundColor(Color.TRANSPARENT);
-            textViewPhone.setTextColor(Color.parseColor("#aaaaaa"));
-            textViewEmail.setTextColor(Color.parseColor("#aaaaaa"));
-            textViewAddress.setTextColor(Color.parseColor("#aaaaaa"));
+            textViewPhone.setTextColor(getResources().getColor(R.color.information_color));
+            textViewEmail.setTextColor(getResources().getColor(R.color.information_color));
+            textViewAddress.setTextColor(getResources().getColor(R.color.information_color));
 
             imageViewEditProfile.setVisibility(View.VISIBLE);
             imageViewSaveProfile.setVisibility(View.GONE);
@@ -239,9 +245,9 @@ public class AccountFragment extends Fragment {
             textViewOldPassword.setBackgroundColor(Color.TRANSPARENT);
             textViewPassword.setBackgroundColor(Color.TRANSPARENT);
 
-            textViewOldPassword.setTextColor(Color.parseColor("#aaaaaa"));
-            textViewPassword.setTextColor(Color.parseColor("#aaaaaa"));
-            textViewPassword.setText("• • • • • • • • • • • •");
+            textViewOldPassword.setTextColor(getResources().getColor(R.color.information_color));
+            textViewPassword.setTextColor(getResources().getColor(R.color.information_color));
+            textViewPassword.setTextColor(getResources().getColor(R.color.information_color));
 
             textViewOldPassword.setEnabled(false);
             textViewPassword.setEnabled(false);
@@ -263,6 +269,7 @@ public class AccountFragment extends Fragment {
         imageViewCancelEdit = view.findViewById(R.id.imageViewCancelEdit);
         imageViewEditAccount = view.findViewById(R.id.imageViewEditAccount);
         imageViewSaveAccount = view.findViewById(R.id.imageViewSaveAccount);
+        imageViewCancelEditAccount = view.findViewById(R.id.imageViewCancelEditAccount);
 
     }
 
