@@ -225,6 +225,7 @@ public class AccountFragment extends Fragment {
             textViewOldPassword.setVisibility(View.VISIBLE);
             imageViewEditAccount.setVisibility(View.GONE);
             imageViewSaveAccount.setVisibility(View.VISIBLE);
+            imageViewCancelEditAccount.setVisibility(View.VISIBLE);
 
             textViewOldPassword.setBackgroundResource(R.drawable.edit_profile_background);
             textViewPassword.setBackgroundResource(R.drawable.edit_profile_background);
@@ -241,6 +242,7 @@ public class AccountFragment extends Fragment {
             textViewOldPassword.setVisibility(View.GONE);
             imageViewEditAccount.setVisibility(View.VISIBLE);
             imageViewSaveAccount.setVisibility(View.GONE);
+            imageViewCancelEditAccount.setVisibility(View.GONE);
 
             textViewOldPassword.setBackgroundColor(Color.TRANSPARENT);
             textViewPassword.setBackgroundColor(Color.TRANSPARENT);
@@ -248,6 +250,8 @@ public class AccountFragment extends Fragment {
             textViewOldPassword.setTextColor(getResources().getColor(R.color.information_color));
             textViewPassword.setTextColor(getResources().getColor(R.color.information_color));
             textViewPassword.setTextColor(getResources().getColor(R.color.information_color));
+
+            textViewPassword.setText("• • • • • • • • • • • •");
 
             textViewOldPassword.setEnabled(false);
             textViewPassword.setEnabled(false);
