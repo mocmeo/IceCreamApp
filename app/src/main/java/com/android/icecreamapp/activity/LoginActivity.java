@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void mapping() {
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbarHome);
         btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn);
         edtEmail = findViewById(R.id.edtLoginEmail);
         edtPassword = findViewById(R.id.edtLoginPassword);

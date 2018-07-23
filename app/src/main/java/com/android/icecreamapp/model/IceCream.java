@@ -1,4 +1,4 @@
-package com.android.icecreamapp.Model;
+package com.android.icecreamapp.model;
 
 public class IceCream {
 

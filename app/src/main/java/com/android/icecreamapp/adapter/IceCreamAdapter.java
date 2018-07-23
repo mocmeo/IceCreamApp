@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.android.icecreamapp.Model.IceCream;
+import com.android.icecreamapp.model.IceCream;
 import com.android.icecreamapp.R;
 import java.util.List;
 

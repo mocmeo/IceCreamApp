@@ -25,7 +25,6 @@
         </activity>
         <activity android:name=".activity.IntroActivity" />
         <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.ProductDetailActivity"
             android:theme="@style/AppTheme.TransparentTheme">
 

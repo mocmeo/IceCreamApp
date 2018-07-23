@@ -4,49 +4,36 @@ package com.android.icecreamapp.fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.transition.TransitionManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.icecreamapp.Model.IceCream;
 import com.android.icecreamapp.R;
-import com.android.icecreamapp.adapter.IceCreamAdapter;
 import com.android.icecreamapp.firebase.FirebaseApplication;
 import com.android.icecreamapp.firebase.FirebaseDatabaseHelper;
 import com.android.icecreamapp.firebase.FirebaseStorageHelper;
+import com.android.icecreamapp.firebase.FirebaseUserEntity;
 import com.android.icecreamapp.util.Helper;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,14 +45,25 @@ public class AccountFragment extends Fragment {
 
     private FirebaseAuth mAuth;
 
+    EditText textViewNameUser;
+    EditText textViewPhone;
+    EditText textViewEmail;
+    EditText textViewAddress;
+    EditText textViewAccount;
+    ImageView imageViewAvatar;
+
+    EditText textViewOldPassword;
+    EditText textViewPassword;
+
+    ImageView imageViewEditAccount;
+    ImageView imageViewSaveAccount;
+    ImageView imageViewEditProfile;
+    ImageView imageViewSaveProfile;
+    ImageView imageViewCancelEdit;
+
     public AccountFragment() {
         // Required empty public constructor
     }
-
-    private boolean isOpen = false;
-    private ConstraintSet layout1, layout2;
-    private ConstraintLayout constraintLayout;
-    private ImageView imageViewPhoto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,39 +74,97 @@ public class AccountFragment extends Fragment {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
-        View rootView = inflater.inflate(R.layout.activity_profile, container, false);
-
-        layout1 = new ConstraintSet();
-        layout2 = new ConstraintSet();
-
-        imageViewPhoto = rootView.findViewById(R.id.photo);
-
-        constraintLayout = rootView.findViewById(R.id.constraint_layout);
-        layout2.clone(rootView.getContext(),R.layout.profile_expanded);
-        layout1.clone(constraintLayout);
-
-        imageViewPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isOpen){
-                    TransitionManager.beginDelayedTransition(constraintLayout);
-                    layout2.applyTo(constraintLayout);
-                    isOpen = !isOpen;
-                }else{
-                    TransitionManager.beginDelayedTransition(constraintLayout);
-                    layout1.applyTo(constraintLayout);
-                    isOpen = !isOpen;
-                }
-            }
-        });
-
-
+        View rootView = inflater.inflate(R.layout.fragment_account, container, false);
+        mapping(rootView);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         bindDataUser(user, rootView);
 
-        TextView textView2 = rootView.findViewById(R.id.textView2);
-        textView2.setOnClickListener(new View.OnClickListener() {
+        imageViewEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingEditProfile(true);
+            }
+        });
+        imageViewCancelEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingEditProfile(false);
+            }
+        });
+        imageViewSaveProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name = textViewNameUser.getText().toString();
+                String phone = textViewPhone.getText().toString();
+                String email = textViewEmail.getText().toString();
+                String address = textViewAddress.getText().toString();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
+                firebaseDatabaseHelper.updateUserInFirebaseDatabase(user.getUid(), new FirebaseUserEntity(user.getUid(), email, name, phone, address, ""));
+                settingEditProfile(false);
+            }
+        });
+
+        imageViewEditAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingEditAccount(true);
+            }
+        });
+        imageViewSaveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String reAuthEmail = textViewAccount.getText().toString();
+                String reAuthPassword = textViewOldPassword.getText().toString();
+                final String newPassword = textViewPassword.getText().toString();
+                if(TextUtils.isEmpty(reAuthPassword)){
+                    Helper.displayMessageToast(getContext(), "Old password field must be filled");
+                }
+                else if(TextUtils.isEmpty(newPassword)){
+                    Helper.displayMessageToast(getContext(), "New password field must be filled");
+                }else{
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    // Get auth credentials from the user for re-authentication
+                    AuthCredential credential = EmailAuthProvider
+                            .getCredential(reAuthEmail, reAuthPassword); // Current Login Credentials \\
+                    // Prompt the user to re-provide their sign-in credentials
+                    user.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    //Now change your email address \\
+                                    //----------------Code for Changing Email Address----------\\
+                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    user.updatePassword(newPassword)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Helper.displayMessageToast(getContext(), "Update Password success");
+                                                        settingEditAccount(false);
+                                                    }else{
+                                                        Helper.displayMessageToast(getContext(), "Password should be at least 6 characters");
+                                                    }
+                                                }
+                                            });
+                                    //----------------------------------------------------------\\
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Helper.displayMessageToast(getContext(), "Old password incorrect!");
+                        }
+                    });
+                }
+            }
+        });
+
+        imageViewAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -120,15 +176,100 @@ public class AccountFragment extends Fragment {
         return rootView;
     }
 
-    private void bindDataUser(FirebaseUser user, View view){
+    private void settingEditProfile(boolean isEdit) {
+        if (isEdit) {
+            textViewNameUser.setEnabled(true);
+            textViewPhone.setEnabled(true);
+            textViewEmail.setEnabled(true);
+            textViewAddress.setEnabled(true);
+            textViewNameUser.setBackgroundResource(R.drawable.edit_profile_background);
+            textViewPhone.setBackgroundResource(R.drawable.edit_profile_background);
+            textViewEmail.setBackgroundResource(R.drawable.edit_profile_background);
+            textViewAddress.setBackgroundResource(R.drawable.edit_profile_background);
+            textViewNameUser.setTextColor(Color.BLACK);
+            textViewPhone.setTextColor(Color.BLACK);
+            textViewEmail.setTextColor(Color.BLACK);
+            textViewAddress.setTextColor(Color.BLACK);
 
-//        TextView tvNumber1 = (TextView) view.findViewById(R.id.tvNumber1);
-//        TextView tvNumber3= (TextView) view.findViewById(R.id.tvNumber3);
-//        TextView tvNumber5 = (TextView) view.findViewById(R.id.tvNumber5);
-//
-//
-//        FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
-//        firebaseDatabaseHelper.isUserKeyExist(user, tvNumber1, tvNumber3, tvNumber5 );
+            imageViewEditProfile.setVisibility(View.GONE);
+            imageViewSaveProfile.setVisibility(View.VISIBLE);
+            imageViewCancelEdit.setVisibility(View.VISIBLE);
+        } else {
+            textViewNameUser.setEnabled(false);
+            textViewPhone.setEnabled(false);
+            textViewEmail.setEnabled(false);
+            textViewAddress.setEnabled(false);
+            textViewNameUser.setBackgroundColor(Color.TRANSPARENT);
+            textViewPhone.setBackgroundColor(Color.TRANSPARENT);
+            textViewEmail.setBackgroundColor(Color.TRANSPARENT);
+            textViewAddress.setBackgroundColor(Color.TRANSPARENT);
+            textViewPhone.setTextColor(Color.parseColor("#aaaaaa"));
+            textViewEmail.setTextColor(Color.parseColor("#aaaaaa"));
+            textViewAddress.setTextColor(Color.parseColor("#aaaaaa"));
+
+            imageViewEditProfile.setVisibility(View.VISIBLE);
+            imageViewSaveProfile.setVisibility(View.GONE);
+            imageViewCancelEdit.setVisibility(View.GONE);
+        }
+    }
+
+    private void settingEditAccount(boolean isEdit) {
+        if(isEdit){
+            textViewAccount.setVisibility(View.GONE);
+            textViewOldPassword.setVisibility(View.VISIBLE);
+            imageViewEditAccount.setVisibility(View.GONE);
+            imageViewSaveAccount.setVisibility(View.VISIBLE);
+
+            textViewOldPassword.setBackgroundResource(R.drawable.edit_profile_background);
+            textViewPassword.setBackgroundResource(R.drawable.edit_profile_background);
+
+            textViewOldPassword.setTextColor(Color.BLACK);
+            textViewPassword.setTextColor(Color.BLACK);
+            textViewOldPassword.setText("");
+            textViewPassword.setText("");
+
+            textViewOldPassword.setEnabled(true);
+            textViewPassword.setEnabled(true);
+        }else{
+            textViewAccount.setVisibility(View.VISIBLE);
+            textViewOldPassword.setVisibility(View.GONE);
+            imageViewEditAccount.setVisibility(View.VISIBLE);
+            imageViewSaveAccount.setVisibility(View.GONE);
+
+            textViewOldPassword.setBackgroundColor(Color.TRANSPARENT);
+            textViewPassword.setBackgroundColor(Color.TRANSPARENT);
+
+            textViewOldPassword.setTextColor(Color.parseColor("#aaaaaa"));
+            textViewPassword.setTextColor(Color.parseColor("#aaaaaa"));
+            textViewPassword.setText("• • • • • • • • • • • •");
+
+            textViewOldPassword.setEnabled(false);
+            textViewPassword.setEnabled(false);
+        }
+    }
+
+    private void mapping(View view) {
+        textViewNameUser = view.findViewById(R.id.textViewNameUser);
+        textViewPhone = view.findViewById(R.id.textViewPhone);
+        textViewEmail = view.findViewById(R.id.textViewEmail);
+        textViewAddress = view.findViewById(R.id.textViewAddress);
+        textViewAccount = view.findViewById(R.id.textViewAccount);
+        imageViewAvatar = view.findViewById(R.id.imageViewAvatar);
+        textViewOldPassword = view.findViewById(R.id.textViewOldPassword);
+        textViewPassword = view.findViewById(R.id.textViewPassword);
+
+        imageViewEditProfile = view.findViewById(R.id.imageViewEditProfile);
+        imageViewSaveProfile = view.findViewById(R.id.imageViewSaveProfile);
+        imageViewCancelEdit = view.findViewById(R.id.imageViewCancelEdit);
+        imageViewEditAccount = view.findViewById(R.id.imageViewEditAccount);
+        imageViewSaveAccount = view.findViewById(R.id.imageViewSaveAccount);
+
+    }
+
+    private void bindDataUser(FirebaseUser user, View view) {
+
+        FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
+        firebaseDatabaseHelper.isUserKeyExist(user, getContext(), textViewNameUser, textViewPhone, textViewEmail, textViewAddress, textViewAccount, imageViewAvatar);
     }
 
     @Override
@@ -143,10 +284,11 @@ public class AccountFragment extends Fragment {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION);
                 return;
             }
-            String id = ((FirebaseApplication)getActivity().getApplication()).getFirebaseUserAuthenticateId();
-            storageHelper.saveProfileImageToCloud(id, selectedImageUri, imageViewPhoto);
+            String id = ((FirebaseApplication) getActivity().getApplication()).getFirebaseUserAuthenticateId();
+            storageHelper.saveProfileImageToCloud(id, selectedImageUri, imageViewAvatar);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_PERMISSION) {

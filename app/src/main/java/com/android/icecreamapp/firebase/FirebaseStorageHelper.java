@@ -7,12 +7,15 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.android.icecreamapp.util.Helper;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -22,6 +25,8 @@ public class FirebaseStorageHelper {
     private static final String TAG = FirebaseStorageHelper.class.getCanonicalName();
 
     private FirebaseStorage firebaseStorage;
+
+    private DatabaseReference databaseReference;
 
     private StorageReference rootRef;
 
@@ -34,10 +39,11 @@ public class FirebaseStorageHelper {
 
     private void init(){
         this.firebaseStorage = FirebaseStorage.getInstance();
+        this.databaseReference = FirebaseDatabase.getInstance().getReference();
         rootRef = firebaseStorage.getReferenceFromUrl("gs://icecreamapp-9de0f.appspot.com");
     }
 
-    public void saveProfileImageToCloud(String userId, Uri selectedImageUri, final ImageView imageView) {
+    public void saveProfileImageToCloud(final String userId, Uri selectedImageUri, final ImageView imageView) {
 
         StorageReference photoParentRef = rootRef.child("profile_avatar/"+userId);
         final StorageReference photoRef = photoParentRef.child("user_avatar");
@@ -58,9 +64,11 @@ public class FirebaseStorageHelper {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     Glide.with(context).load(downloadUri).into(imageView);
-
+                    databaseReference.child("users").child(userId).child("imageUrl").setValue(downloadUri.toString());
+                    Helper.displayMessageToast(context, "Update avatar successful!");
                 } else {
                     // Handle failures
+                    Helper.displayMessageToast(context, "Update avatar fail!");
                     // ...
                 }
             }

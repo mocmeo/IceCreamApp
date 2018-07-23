@@ -2,10 +2,15 @@ package com.android.icecreamapp.firebase;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.icecreamapp.R;
 import com.android.icecreamapp.fragment.AccountFragment;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,32 +33,61 @@ public class FirebaseDatabaseHelper {
 
     private DatabaseReference databaseReference;
 
-    public FirebaseDatabaseHelper(){
+    public FirebaseDatabaseHelper() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void createUserInFirebaseDatabase(String userId, FirebaseUserEntity firebaseUserEntity){
+    public void createUserInFirebaseDatabase(String userId, FirebaseUserEntity firebaseUserEntity) {
         Map<String, FirebaseUserEntity> user = new HashMap<String, FirebaseUserEntity>();
         user.put(userId, firebaseUserEntity);
         databaseReference.child("users").setValue(user);
     }
 
-    public void isUserKeyExist(final FirebaseUser user, final TextView textViewPhone, final TextView textViewEmail, final TextView textViewAddress){
+    public void updateUserInFirebaseDatabase(String userId, FirebaseUserEntity firebaseUserEntity) {
+        Map<String, Object> user = new HashMap<String, Object>();
+        user.put("name", firebaseUserEntity.getName());
+        user.put("email", firebaseUserEntity.getEmail());
+        user.put("phone", firebaseUserEntity.getPhone());
+        user.put("address", firebaseUserEntity.getAddress());
+        databaseReference.child("users").child(userId).updateChildren(user);
+    }
+
+    public void isUserKeyExist(final FirebaseUser user,
+                               final Context context,
+                               final EditText textViewNameUser,
+                               final EditText textViewPhone,
+                               final EditText textViewEmail,
+                               final EditText textViewAddress,
+                               final EditText textViewAccount,
+                               final ImageView imageViewAvatar) {
         databaseReference.child("users").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.getKey().equals(user.getUid())) {
+                if (dataSnapshot.getKey().equals(user.getUid())) {
                     FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
-                    if(!userInformation.getPhone().isEmpty()){
+
+                    if (userInformation.getPhone() != null) {
                         textViewPhone.setText(userInformation.getPhone());
-                    }else{
+                    } else if(user.getPhoneNumber() != null){
                         textViewPhone.setText(user.getPhoneNumber());
                     }
-                    if(!userInformation.getPhone().isEmpty()){
-                        textViewEmail.setText(userInformation.getPhone());
-                    }else{
-                        textViewEmail.setText(user.getPhoneNumber());
+
+                    if (userInformation.getName() != null) {
+                        textViewNameUser.setText(userInformation.getName());
+                    } else if(user.getDisplayName() != null){
+                        textViewAddress.setText(user.getDisplayName());
                     }
+
+                    if (userInformation.getImageUrl() != null) {
+                        Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageViewAvatar);
+                    } else if (user.getPhotoUrl() != null) {
+                        Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
+                    } else {
+                        imageViewAvatar.setImageResource(R.drawable.no_image);
+                    }
+
+                    textViewEmail.setText(userInformation.getEmail());
+                    textViewAccount.setText(user.getEmail());
 
                     textViewAddress.setText(userInformation.getAddress());
                 }
@@ -61,18 +95,31 @@ public class FirebaseDatabaseHelper {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.getKey().equals(user.getUid())) {
+                if (dataSnapshot.getKey().equals(user.getUid())) {
                     FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
-                    if(!userInformation.getPhone().isEmpty()){
+
+                    if (userInformation.getPhone() != null) {
                         textViewPhone.setText(userInformation.getPhone());
-                    }else{
+                    } else if(user.getPhoneNumber() != null){
                         textViewPhone.setText(user.getPhoneNumber());
                     }
-                    if(!userInformation.getPhone().isEmpty()){
-                        textViewEmail.setText(userInformation.getPhone());
-                    }else{
-                        textViewEmail.setText(user.getPhoneNumber());
+
+                    if (userInformation.getName() != null) {
+                        textViewNameUser.setText(userInformation.getName());
+                    } else if(user.getDisplayName() != null){
+                        textViewAddress.setText(user.getDisplayName());
                     }
+
+                    if (userInformation.getImageUrl() != null) {
+                        Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageViewAvatar);
+                    } else if (user.getPhotoUrl() != null) {
+                        Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
+                    } else {
+                        imageViewAvatar.setImageResource(R.drawable.no_image);
+                    }
+
+                    textViewEmail.setText(userInformation.getEmail());
+                    textViewAccount.setText(user.getEmail());
 
                     textViewAddress.setText(userInformation.getAddress());
                 }
@@ -94,17 +141,4 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
-
-//    private List<UserProfile> adapterSourceData(DataSnapshot dataSnapshot, String uId){
-//        List<UserProfile> allUserData = new ArrayList<UserProfile>();
-//        if(dataSnapshot.getKey().equals(uId)){
-//            FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
-//            allUserData.add(new UserProfile(Helper.NAME, userInformation.getName()));
-//            allUserData.add(new UserProfile(Helper.EMAIL, userInformation.getEmail()));
-//            allUserData.add(new UserProfile(Helper.BIRTHDAY, userInformation.getBirthday()));
-//            allUserData.add(new UserProfile(Helper.PHONE_NUMBER, userInformation.getPhone()));
-//            allUserData.add(new UserProfile(Helper.HOBBY_INTEREST, userInformation.getHobby()));
-//        }
-//        return allUserData;
-//    }
 }

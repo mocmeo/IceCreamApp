@@ -13,17 +13,19 @@ public class FirebaseUserEntity {
 
     private String address;
 
+    private String imageUrl;
+
     public FirebaseUserEntity(){
 
     }
 
-    public FirebaseUserEntity(String uId, String email, String name, String phone, String address) {
-
+    public FirebaseUserEntity(String uId, String email, String name, String phone, String address, String imageUrl) {
         this.uId = uId;
         this.email = email;
         this.name = name;
         this.phone = phone;
         this.address = address;
+        this.imageUrl = imageUrl;
     }
 
     public void setuId(String uId) {
@@ -44,6 +46,10 @@ public class FirebaseUserEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getuId() {
@@ -67,5 +73,7 @@ public class FirebaseUserEntity {
         return address;
     }
 
-
+    public String getImageUrl() {
+        return imageUrl;
+    }
 }
