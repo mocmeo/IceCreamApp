@@ -1,6 +1,7 @@
 package com.android.icecreamapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.activity.ProductDetailActivity;
 import com.android.icecreamapp.model.Product;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -62,6 +64,10 @@ public class MilkshakeHomeAdapter extends RecyclerView.Adapter<MilkshakeHomeAdap
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked on an image: " + mProducts.get(position).name);
                 Toast.makeText(mContext, mProducts.get(position).name, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                intent.putExtra("product_detail", mProducts.get(position));
+                mContext.startActivity(intent);
             }
         });
     }

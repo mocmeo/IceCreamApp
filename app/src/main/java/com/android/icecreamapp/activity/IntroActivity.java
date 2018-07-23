@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.util.TweakUI;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
@@ -27,6 +28,8 @@ public class IntroActivity extends AppIntro {
         // Add slide 3
         addSlide(AppIntroFragment.newInstance("Slide 3", "This is third slide",
                 R.mipmap.ic_launcher, ContextCompat.getColor(getApplicationContext(), R.color.slide3)));
+
+        TweakUI.makeTransparent(this);
 
     }
 

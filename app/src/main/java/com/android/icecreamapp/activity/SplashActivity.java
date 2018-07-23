@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.util.TweakUI;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -21,6 +22,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        TweakUI.makeTransparent(this);
         if (checkFirstTime()) {
             startActivity(new Intent(this, IntroActivity.class));
         } else {
