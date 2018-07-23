@@ -16,8 +16,14 @@ import com.android.icecreamapp.fragment.CartFragment;
 import com.android.icecreamapp.fragment.HomeFragment;
 import com.android.icecreamapp.fragment.SearchFragment;
 import com.android.icecreamapp.util.BottomNavigationViewHelper;
+import com.viven.fragmentstatemanager.FragmentStateManager;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private static final int HOME_FRAGMENT = 0;
+    private static final int SEARCH_FRAGMENT = 1;
+    private static final int CART_FRAGMENT = 2;
+    private static final int ACCOUNT_FRAGMENT = 3;
 
     private BottomNavigationView bottomNavigation;
     private FrameLayout mMainFrame;
@@ -26,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private CartFragment cartFragment;
     private AccountFragment accountFragment;
     private SearchFragment searchFragment;
+    private FragmentStateManager fragmentStateManager;
 
 
     @Override
@@ -45,9 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         if (intent != null) {
             String fragmentName = intent.getStringExtra("info");
             if (fragmentName != null) {
-                if (fragmentName.equals("home")) {
-                    setFragment(homeFragment);
-                } else if (fragmentName.equals("cart")) {
+                if (fragmentName.equals("cart")) {
                     setFragment(cartFragment);
                     bottomNavigation.setSelectedItemId(R.id.nav_cart);
                 }
@@ -65,7 +70,38 @@ public class HomeActivity extends AppCompatActivity {
         cartFragment = new CartFragment();
         accountFragment = new AccountFragment();
         searchFragment = new SearchFragment();
+
+//        fragmentStateManager = new FragmentStateManager(mMainFrame, getSupportFragmentManager()) {
+//            @Override
+//            public Fragment getItem(int position) {
+//                switch (position) {
+//                    case HOME_FRAGMENT:
+//                        return homeFragment;
+//                    case SEARCH_FRAGMENT:
+//                        return searchFragment;
+//                    case CART_FRAGMENT:
+//                        return cartFragment;
+//                    case ACCOUNT_FRAGMENT:
+//                        return accountFragment;
+//                }
+//                return homeFragment;
+//            }
+//        };
     }
+
+//    private int getNavPositionFromMenuItem(int id) {
+//        switch (id) {
+//            case R.id.nav_home:
+//                return HOME_FRAGMENT;
+//            case R.id.nav_search:
+//                return SEARCH_FRAGMENT;
+//            case R.id.nav_cart:
+//                return CART_FRAGMENT;
+//            case R.id.nav_account:
+//                return ACCOUNT_FRAGMENT;
+//        }
+//        return -1;
+//    }
 
     private void fragmentHandler() {
         BottomNavigationViewHelper.removeShiftMode(bottomNavigation);
@@ -86,7 +122,8 @@ public class HomeActivity extends AppCompatActivity {
                         setFragment(accountFragment);
                         return true;
 
-                    default: return false;
+                    default:
+                        return false;
                 }
             }
         });
