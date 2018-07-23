@@ -1,5 +1,6 @@
 package com.android.icecreamapp.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,22 @@ public class HomeActivity extends AppCompatActivity {
         initFragment();
         fragmentHandler();
         setFragment(homeFragment);
+        redirectFragment();
+    }
+
+    private void redirectFragment() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            String fragmentName = intent.getStringExtra("info");
+            if (fragmentName != null) {
+                if (fragmentName.equals("home")) {
+                    setFragment(homeFragment);
+                } else if (fragmentName.equals("cart")) {
+                    setFragment(cartFragment);
+                    bottomNavigation.setSelectedItemId(R.id.nav_cart);
+                }
+            }
+        }
     }
 
     private void mapping() {

@@ -1,5 +1,6 @@
 package com.android.icecreamapp.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,6 +45,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private RecyclerView rvProductRelated;
     private ArrayList<Product> mProducts;
     private RecyclerView.Adapter productAdapter;
+    private LinearLayout btnHome, btnCart;
 
     private DatabaseReference mData;
     private Product product;
@@ -59,6 +62,27 @@ public class ProductDetailActivity extends AppCompatActivity {
         getInformation();
         initRecyclerView();
         initImageBitmaps();
+        activityHandler();
+    }
+
+    private void activityHandler() {
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductDetailActivity.this, HomeActivity.class);
+                intent.putExtra("info", "home");
+                startActivity(intent);
+            }
+        });
+
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductDetailActivity.this, HomeActivity.class);
+                intent.putExtra("info", "cart");
+                startActivity(intent);
+            }
+        });
     }
 
     private void initImageBitmaps() {
@@ -169,6 +193,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         productPrice = findViewById(R.id.price_product_detail);
         productDesc = findViewById(R.id.desc_product_detail);
         rvProductRelated = findViewById(R.id.rvProductRelated);
+        btnHome = findViewById(R.id.btn_home_detail);
+        btnCart = findViewById(R.id.btn_cart_detail);
     }
 
     private void configToolbar() {
