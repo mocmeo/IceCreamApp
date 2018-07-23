@@ -6,14 +6,65 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.HomeActivity">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarHome"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#1565C0"
-        app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@color/colorWhite">
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/search_header_background"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:text="S E A R C H"/>
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:drawableRight="@drawable/ic_search_24dp"
+            android:drawablePadding="-38dp"
+            android:paddingRight="10dp"
+            android:hint="type here"
+            android:textSize="12dp"
+            android:background="@drawable/button_search_background"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+    <TextView
+        android:id="@+id/textViewNumberResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="result"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+    <ListView
+        android:id="@+id/listViewSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp">
+
+    </ListView>
+    <LinearLayout
+        android:id="@+id/layoutEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No foods found">
+        </TextView>
+
+    </LinearLayout>
 
 </LinearLayout>

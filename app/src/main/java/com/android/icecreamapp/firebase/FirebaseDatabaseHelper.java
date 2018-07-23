@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 //import demo.loginmaster.Adapters.RecyclerViewAdapter;
-//import demo.loginmaster.UserHelper.UserHelper;
+//import demo.loginmaster.Helper.Helper;
 //import demo.loginmaster.UserProfile;
 
 public class FirebaseDatabaseHelper {
@@ -63,71 +63,17 @@ public class FirebaseDatabaseHelper {
         databaseReference.child("users").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equals(user.getUid())) {
-                    FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
-
-                    if (userInformation.getPhone() != null) {
-                        textViewPhone.setText(userInformation.getPhone());
-                    } else if(user.getPhoneNumber() != null){
-                        textViewPhone.setText(user.getPhoneNumber());
-                    }
-
-                    if (userInformation.getName() != null) {
-                        textViewNameUser.setText(userInformation.getName());
-                    } else if(user.getDisplayName() != null){
-                        textViewAddress.setText(user.getDisplayName());
-                    }
-
-                    if (userInformation.getImageUrl() != null) {
-                        Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageViewAvatar);
-                    } else if (user.getPhotoUrl() != null) {
-                        Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
-                    } else {
-                        imageViewAvatar.setImageResource(R.drawable.no_image);
-                    }
-
-                    textViewEmail.setText(userInformation.getEmail());
-                    textViewAccount.setText(user.getEmail());
-
-                    textViewAddress.setText(userInformation.getAddress());
-                }
+                bindData(user,context,dataSnapshot,textViewNameUser,textViewPhone,textViewEmail,textViewAddress,textViewAccount,imageViewAvatar);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equals(user.getUid())) {
-                    FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
-
-                    if (userInformation.getPhone() != null) {
-                        textViewPhone.setText(userInformation.getPhone());
-                    } else if(user.getPhoneNumber() != null){
-                        textViewPhone.setText(user.getPhoneNumber());
-                    }
-
-                    if (userInformation.getName() != null) {
-                        textViewNameUser.setText(userInformation.getName());
-                    } else if(user.getDisplayName() != null){
-                        textViewAddress.setText(user.getDisplayName());
-                    }
-
-                    if (userInformation.getImageUrl() != null) {
-                        Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageViewAvatar);
-                    } else if (user.getPhotoUrl() != null) {
-                        Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
-                    } else {
-                        imageViewAvatar.setImageResource(R.drawable.no_image);
-                    }
-
-                    textViewEmail.setText(userInformation.getEmail());
-                    textViewAccount.setText(user.getEmail());
-
-                    textViewAddress.setText(userInformation.getAddress());
-                }
+                bindData(user,context,dataSnapshot,textViewNameUser,textViewPhone,textViewEmail,textViewAddress,textViewAccount,imageViewAvatar);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                bindData(user,context,dataSnapshot,textViewNameUser,textViewPhone,textViewEmail,textViewAddress,textViewAccount,imageViewAvatar);
             }
 
             @Override
@@ -140,5 +86,53 @@ public class FirebaseDatabaseHelper {
 
             }
         });
+    }
+
+    private void bindData(final FirebaseUser user,
+                          final Context context,
+                          final DataSnapshot dataSnapshot,
+                          final EditText textViewNameUser,
+                          final EditText textViewPhone,
+                          final EditText textViewEmail,
+                          final EditText textViewAddress,
+                          final EditText textViewAccount,
+                          final ImageView imageViewAvatar) {
+        if (!dataSnapshot.getKey().equals(user.getUid())) {
+            textViewNameUser.setText(user.getDisplayName());
+            textViewAccount.setText(user.getEmail());
+            textViewAddress.setText("");
+            textViewPhone.setText(user.getPhoneNumber());
+            textViewEmail.setText(user.getEmail());
+            Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
+        } else {
+            if (dataSnapshot.getKey().equals(user.getUid())) {
+                FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
+
+                if (userInformation.getPhone() != null) {
+                    textViewPhone.setText(userInformation.getPhone());
+                } else if (user.getPhoneNumber() != null) {
+                    textViewPhone.setText(user.getPhoneNumber());
+                }
+
+                if (userInformation.getName() != null) {
+                    textViewNameUser.setText(userInformation.getName());
+                } else if (user.getDisplayName() != null) {
+                    textViewAddress.setText(user.getDisplayName());
+                }
+
+                if (userInformation.getImageUrl() != null) {
+                    Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageViewAvatar);
+                } else if (user.getPhotoUrl() != null) {
+                    Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
+                } else {
+                    imageViewAvatar.setImageResource(R.drawable.no_image);
+                }
+
+                textViewEmail.setText(userInformation.getEmail());
+                textViewAccount.setText(user.getEmail());
+
+                textViewAddress.setText(userInformation.getAddress());
+            }
+        }
     }
 }

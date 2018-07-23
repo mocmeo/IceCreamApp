@@ -40,36 +40,66 @@ public class FirebaseStorageHelper {
         rootRef = firebaseStorage.getReferenceFromUrl("gs://icecreamapp-9de0f.appspot.com");
     }
 
-    public void saveProfileImageToCloud(final String userId, Uri selectedImageUri, final ImageView imageView) {
+    public void saveProfileImageToCloud(final String userId, Uri selectedImageUri, final ImageView imageView, final int selectImage) {
 
         StorageReference photoParentRef = rootRef.child("profile_avatar/"+userId);
-        final StorageReference photoRef = photoParentRef.child("user_avatar");
-        UploadTask uploadTask = photoRef.putFile(selectedImageUri);
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
 
-                // Continue with the task to get the download URL
-                return photoRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-                    Glide.with(context).load(downloadUri).into(imageView);
-                    databaseReference.child("users").child(userId).child("imageUrl").setValue(downloadUri.toString());
-                    UserHelper.displayMessageToast(context, "Update avatar successful!");
-                } else {
-                    // Handle failures
-                    UserHelper.displayMessageToast(context, "Update avatar fail!");
-                    // ...
-                }
-            }
-        });
+        if(selectImage == UserHelper.SELECT_PICTURE_AVATAR){
+            final StorageReference photoRef = photoParentRef.child("user_avatar");
+            UploadTask uploadTask = photoRef.putFile(selectedImageUri);
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
 
+                    // Continue with the task to get the download URL
+                    return photoRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        Glide.with(context).load(downloadUri).into(imageView);
+                        databaseReference.child("users").child(userId).child("imageUrl").setValue(downloadUri.toString());
+                        UserHelper.displayMessageToast(context, "Update avatar successful!");
+                    } else {
+                        // Handle failures
+                        UserHelper.displayMessageToast(context, "Update avatar fail!");
+                        // ...
+                    }
+                }
+            });
+        }else{
+            final StorageReference photoRef = photoParentRef.child("user_cover");
+            UploadTask uploadTask = photoRef.putFile(selectedImageUri);
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return photoRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        Glide.with(context).load(downloadUri).into(imageView);
+                        databaseReference.child("users").child(userId).child("coverUrl").setValue(downloadUri.toString());
+                        UserHelper.displayMessageToast(context, "Update cover image successful!");
+                    } else {
+                        // Handle failures
+                        UserHelper.displayMessageToast(context, "Update cover image fail!");
+                        // ...
+                    }
+                }
+            });
+        }
     }
 }

@@ -16,7 +16,9 @@ public class UserHelper {
 
     public static final String HOBBY_INTEREST = "Hobby & Interest";
 
-    public static final int SELECT_PICTURE = 2000;
+    public static final int SELECT_PICTURE_AVATAR = 2000;
+
+    public static final int SELECT_PICTURE_COVER = 2100;
 
     public static boolean isValidEmail(String email){
         if(email.contains("@")){
