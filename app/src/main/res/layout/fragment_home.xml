@@ -18,6 +18,58 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/bottom_navigation_detail"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:background="#fff"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F5F5F5">
+
+                    <LinearLayout
+                        android:id="@+id/btn_home_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ezKem"
+                            android:textColor="#0288D1"
+                            android:textStyle="bold"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="250dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="right"
+                        android:background="@drawable/btn_shape_home"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="Search"
+                        android:drawableEnd="@drawable/baseline_search_white"
+                        android:textColor="#fff"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
             <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/sliderHome"
                 android:layout_width="match_parent"

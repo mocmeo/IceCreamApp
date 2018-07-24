@@ -1,5 +1,7 @@
 package com.android.icecreamapp.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +12,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.widget.Adapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,6 +45,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ImageView imgDetail;
+    private Button btnAddToCart;
     private String imgUrl;
     private TextView productName, productPrice, productDesc;
     private RecyclerView rvProductRelated;
@@ -82,6 +88,56 @@ public class ProductDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cartDialog();
+            }
+        });
+
+
+    }
+
+    private void cartDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.cart_dialog_custom, null);
+
+        // mapping
+        ImageView imageCart = view.findViewById(R.id.image_cart_dialog);
+        TextView nameCart = view.findViewById(R.id.name_cart_dialog);
+        TextView descCart = view.findViewById(R.id.desc_cart_dialog);
+        TextView priceCart = view.findViewById(R.id.price_cart_dialog);
+        ImageButton btnMinus = view.findViewById(R.id.btn_minus_cart_dialog);
+        ImageButton btnPlus = view.findViewById(R.id.btn_plus_cart_dialog);
+        TextView txtQuantity = view.findViewById(R.id.quantity_cart_dialog);
+        Button btnAddToCart = view.findViewById(R.id.btn_add_to_cart_dialog);
+
+        // set values
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        Glide.with(this)
+                .asBitmap()
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.no_image)
+                        .fitCenter())
+                .load(imgUrl)
+                .into(imageCart);
+        nameCart.setText(product.getName());
+        descCart.setText(product.getDescription());
+        priceCart.setText(decimalFormat.format(product.getPrice()) + " đ̲");
+
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+
+
+//        Dialog dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.cart_dialog_custom);
+//        dialog.setTitle("Add to cart");
+//
+//        dialog.show();
     }
 
     private void initImageBitmaps() {
@@ -194,6 +250,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         rvProductRelated = findViewById(R.id.rvProductRelated);
         btnHome = findViewById(R.id.btn_home_detail);
         btnCart = findViewById(R.id.btn_cart_detail);
+        btnAddToCart = findViewById(R.id.btnAddToCart);
     }
 
     private void configToolbar() {
@@ -202,7 +259,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setTitle(product.getName());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setIcon(R.drawable.ic_arrow_back_white);
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
