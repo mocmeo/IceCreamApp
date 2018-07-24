@@ -202,6 +202,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setTitle(product.getName());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setIcon(R.drawable.ic_arrow_back_white);
         }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

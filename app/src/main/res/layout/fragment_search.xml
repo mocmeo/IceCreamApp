@@ -6,46 +6,65 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.HomeActivity">
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_height="?attr/actionBarSize"
         android:background="@drawable/search_header_background"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textSize="@dimen/_16sdp"
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:text="S E A R C H"/>
-        <EditText
-            android:id="@+id/editTextSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:drawableRight="@drawable/ic_search_24dp"
-            android:drawablePadding="-38dp"
-            android:paddingRight="10dp"
-            android:hint="type here"
-            android:textSize="12dp"
-            android:background="@drawable/button_search_background"/>
-    </LinearLayout>
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:scaleType="centerCrop"
+                android:src="@drawable/btn_back_white" />
+
+            <EditText
+                android:id="@+id/editTextSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:hint="Enter keyword"
+                android:textColor="#E0E0E0"
+                android:textSize="17sp"
+                android:backgroundTint="@android:color/transparent"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/btn_search_white"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="13dp"
+            android:background="@null"/>
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
+
     <TextView
         android:id="@+id/textViewNumberResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="result"/>
+        android:text="result" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
+
     <ListView
         android:id="@+id/listViewSearch"
         android:layout_width="match_parent"
@@ -53,6 +72,7 @@
         android:paddingTop="5dp">
 
     </ListView>
+
     <LinearLayout
         android:id="@+id/layoutEmpty"
         android:layout_width="match_parent"
@@ -62,8 +82,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No foods found">
-        </TextView>
+            android:text="No foods found"></TextView>
 
     </LinearLayout>
 
