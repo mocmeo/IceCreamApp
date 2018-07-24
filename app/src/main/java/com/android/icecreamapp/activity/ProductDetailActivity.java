@@ -1,29 +1,31 @@
 package com.android.icecreamapp.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
-import android.widget.Adapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.icecreamapp.R;
 import com.android.icecreamapp.adapter.IcecreamHomeAdapter;
 import com.android.icecreamapp.adapter.MilkshakeHomeAdapter;
+import com.android.icecreamapp.model.Cart;
+import com.android.icecreamapp.model.OrderLine;
 import com.android.icecreamapp.model.Product;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,7 +34,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     private static final int NUM_COLUMNS = 2;
     private static final int ICE_CREAM = 1;
     private static final int MILKSHAKE = 2;
+
+    private final int MAX_PRODUCT_QTY = 10;
+    private final int MIN_PRODUCT_QTY = 1;
 
     private Toolbar toolbar;
     private ImageView imgDetail;
@@ -100,21 +104,21 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void cartDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.cart_dialog_custom, null);
 
         // mapping
         ImageView imageCart = view.findViewById(R.id.image_cart_dialog);
         TextView nameCart = view.findViewById(R.id.name_cart_dialog);
         TextView descCart = view.findViewById(R.id.desc_cart_dialog);
-        TextView priceCart = view.findViewById(R.id.price_cart_dialog);
+        final TextView priceCart = view.findViewById(R.id.price_cart_dialog);
         ImageButton btnMinus = view.findViewById(R.id.btn_minus_cart_dialog);
         ImageButton btnPlus = view.findViewById(R.id.btn_plus_cart_dialog);
-        TextView txtQuantity = view.findViewById(R.id.quantity_cart_dialog);
+        final EditText txtQuantity = view.findViewById(R.id.quantity_cart_dialog);
         Button btnAddToCart = view.findViewById(R.id.btn_add_to_cart_dialog);
 
         // set values
-        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        final DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         Glide.with(this)
                 .asBitmap()
                 .apply(new RequestOptions()
@@ -127,17 +131,83 @@ public class ProductDetailActivity extends AppCompatActivity {
         priceCart.setText(decimalFormat.format(product.getPrice()) + " đ̲");
 
         builder.setView(view);
-        AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();
 
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strQty = txtQuantity.getText().toString();
+                int quantity = Integer.parseInt(strQty) + 1;
+                if (quantity > MAX_PRODUCT_QTY)
+                    quantity = MAX_PRODUCT_QTY;
+                txtQuantity.setText(String.valueOf(quantity));
+                priceCart.setText(decimalFormat.format(product.getPrice() * quantity) + " đ̲");
+            }
+        });
 
-//        Dialog dialog = new Dialog(this);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(R.layout.cart_dialog_custom);
-//        dialog.setTitle("Add to cart");
-//
-//        dialog.show();
+        btnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strQty = txtQuantity.getText().toString();
+                int quantity = Integer.parseInt(strQty) - 1;
+                if (quantity < MIN_PRODUCT_QTY)
+                    quantity = MIN_PRODUCT_QTY;
+                txtQuantity.setText(String.valueOf(quantity));
+                priceCart.setText(decimalFormat.format(product.getPrice() * quantity) + " đ̲");
+            }
+        });
+
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(txtQuantity.getText().toString());
+                quantity = refineQuantity(quantity);
+
+                if (Cart.orderLinesList.size() > 0) {
+                    boolean exist = false;
+                    for (int i = 0; i < Cart.orderLinesList.size(); ++i) {
+                        if (Cart.orderLinesList.get(i).getProduct().getId() == product.getId()) {
+                            Cart.orderLinesList.get(i).setQuantity(Cart.orderLinesList.get(i).getQuantity() + quantity);
+                            if (Cart.orderLinesList.get(i).getQuantity() > MAX_PRODUCT_QTY)
+                                Cart.orderLinesList.get(i).setQuantity(MAX_PRODUCT_QTY);
+
+                            Cart.orderLinesList.get(i).setTotalPrice(product.getPrice() * Cart.orderLinesList.get(i).getQuantity());
+                            exist = true;
+                        }
+                    }
+
+                    if (!exist) {
+                        long price = quantity * product.getPrice();
+                        Cart.orderLinesList.add(OrderLine.generateOrderLine(product, quantity, price));
+                    }
+                } else {
+                    long price = quantity * product.getPrice();
+                    Cart.orderLinesList.add(OrderLine.generateOrderLine(product, quantity, price));
+                }
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private long refinePrice(String strPrice) {
+        StringBuilder price = new StringBuilder();
+
+        for (char ch: strPrice.toCharArray()) {
+            if (ch >= '0' && ch <= '9') {
+                price.append(ch);
+            }
+        }
+        return Long.parseLong(price.toString());
+    }
+
+    private int refineQuantity(int quantity) {
+        if (quantity > MAX_PRODUCT_QTY)
+            return MAX_PRODUCT_QTY;
+        else if (quantity < MIN_PRODUCT_QTY)
+            return MIN_PRODUCT_QTY;
+        return quantity;
     }
 
     private void initImageBitmaps() {

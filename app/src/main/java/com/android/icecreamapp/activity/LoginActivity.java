@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonSignIn;
     private TextView textViewSignUp;
     // For toolbar
-    private Toolbar toolbar;
 
 
     @Override
@@ -88,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void mapping() {
-        toolbar = findViewById(R.id.toolbarHome);
         btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn);
         edtEmail = findViewById(R.id.edtLoginEmail);
         edtPassword = findViewById(R.id.edtLoginPassword);
@@ -97,13 +95,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void configToolbar() {
-        setSupportActionBar(toolbar);
-
-        //remove title from toolbar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+//        setSupportActionBar(toolbar);
+//
+//        //remove title from toolbar
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setDisplayShowTitleEnabled(false);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }
     }
 
     private void configGoogleLogin() {

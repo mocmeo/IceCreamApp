@@ -3,31 +3,14 @@ package com.android.icecreamapp.model;
 import java.util.ArrayList;
 
 public class Cart {
-    public static ArrayList<Cart> arrayCart = null;
+//    public static ArrayList<Cart> arrayCart = new ArrayList<>();
     public static int ID = 0;
 
     public int id;
-    private ArrayList<OrderLine> orderLinesList;
-    private double totalPrice;
+    public static ArrayList<OrderLine> orderLinesList = new ArrayList<>();
+    public static double totalPrice = 0;
 
     public Cart() {
-    }
-
-    public static Cart generateCart() {
-        Cart newCart = new Cart();
-        newCart.id = ++ID;
-        newCart.orderLinesList = new ArrayList<>();
-        newCart.totalPrice = 0;
-        return newCart;
-    }
-
-
-    public ArrayList<OrderLine> getOrderLinesList() {
-        return orderLinesList;
-    }
-
-    public void setOrderLinesList(ArrayList<OrderLine> orderLinesList) {
-        this.orderLinesList = orderLinesList;
     }
 
     public void addToCart(Product product, int qty) {

@@ -6,16 +6,16 @@ public class OrderLine {
     private int id;
     private Product product;
     private int quantity;
-    private double totalPrice;
+    private long totalPrice;
 
-    private OrderLine(int id, Product product, int quantity, double totalPrice) {
+    private OrderLine(int id, Product product, int quantity, long totalPrice) {
         this.id = id;
         this.product = product;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
     }
 
-    public static OrderLine generateOrderLine(Product product, int qty, double totalPrice) {
+    public static OrderLine generateOrderLine(Product product, int qty, long totalPrice) {
         return new OrderLine(++ID, product, qty, totalPrice);
     }
 
@@ -43,11 +43,11 @@ public class OrderLine {
         this.quantity = quantity;
     }
 
-    public double getTotalPrice() {
+    public long getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
     }
 }
