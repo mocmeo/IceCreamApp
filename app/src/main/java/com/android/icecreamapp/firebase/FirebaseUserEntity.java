@@ -17,8 +17,12 @@ public class FirebaseUserEntity {
 
     private String coverUrl;
 
-    public FirebaseUserEntity(){
+    public FirebaseUserEntity() {
 
+    }
+
+    public FirebaseUserEntity(String uId) {
+        this.uId = uId;
     }
 
     public FirebaseUserEntity(String uId, String email, String name, String phone, String address, String imageUrl, String coverUrl) {

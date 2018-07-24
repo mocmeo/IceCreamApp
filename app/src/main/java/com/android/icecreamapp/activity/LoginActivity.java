@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.android.icecreamapp.R;
 import com.android.icecreamapp.firebase.FirebaseApplication;
+import com.android.icecreamapp.firebase.FirebaseDatabaseHelper;
 import com.android.icecreamapp.util.UserHelper;
 import com.android.icecreamapp.util.TweakUI;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -174,6 +175,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
+            FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
+            firebaseDatabaseHelper.checkExistUserInformation(user.getUid());
             Toast.makeText(this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);

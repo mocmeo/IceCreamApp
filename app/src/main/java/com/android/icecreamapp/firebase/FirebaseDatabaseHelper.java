@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +38,32 @@ public class FirebaseDatabaseHelper {
         databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void createUserInFirebaseDatabase(String userId, FirebaseUserEntity firebaseUserEntity) {
-        Map<String, FirebaseUserEntity> user = new HashMap<String, FirebaseUserEntity>();
-        user.put(userId, firebaseUserEntity);
-        databaseReference.child("users").setValue(user);
+    public void checkExistUserInformation(final String userId) {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = database.child("users");
+        final List<FirebaseUserEntity> connectedUser = new ArrayList<>();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    if (item.getKey().equals(userId)) {
+                        FirebaseUserEntity user = dataSnapshot.getValue(FirebaseUserEntity.class);
+                        connectedUser.add(user);
+                    }
+                }
+                if (connectedUser.size() == 0) {
+                    Map<String, FirebaseUserEntity> user = new HashMap<String, FirebaseUserEntity>();
+                    user.put(userId, new FirebaseUserEntity(userId));
+                    databaseReference.child("users").child(userId).setValue(new FirebaseUserEntity(userId));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
     }
 
     public void updateUserInFirebaseDatabase(String userId, FirebaseUserEntity firebaseUserEntity) {
@@ -59,21 +82,22 @@ public class FirebaseDatabaseHelper {
                                final EditText textViewEmail,
                                final EditText textViewAddress,
                                final EditText textViewAccount,
-                               final ImageView imageViewAvatar) {
+                               final ImageView imageViewAvatar,
+                               final ImageView imageCover) {
         databaseReference.child("users").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                bindData(user,context,dataSnapshot,textViewNameUser,textViewPhone,textViewEmail,textViewAddress,textViewAccount,imageViewAvatar);
+                bindData(user, context, dataSnapshot, textViewNameUser, textViewPhone, textViewEmail, textViewAddress, textViewAccount, imageViewAvatar, imageCover);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                bindData(user,context,dataSnapshot,textViewNameUser,textViewPhone,textViewEmail,textViewAddress,textViewAccount,imageViewAvatar);
+                bindData(user, context, dataSnapshot, textViewNameUser, textViewPhone, textViewEmail, textViewAddress, textViewAccount, imageViewAvatar, imageCover);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                bindData(user,context,dataSnapshot,textViewNameUser,textViewPhone,textViewEmail,textViewAddress,textViewAccount,imageViewAvatar);
+                bindData(user, context, dataSnapshot, textViewNameUser, textViewPhone, textViewEmail, textViewAddress, textViewAccount, imageViewAvatar, imageCover);
             }
 
             @Override
@@ -96,43 +120,48 @@ public class FirebaseDatabaseHelper {
                           final EditText textViewEmail,
                           final EditText textViewAddress,
                           final EditText textViewAccount,
-                          final ImageView imageViewAvatar) {
-        if (!dataSnapshot.getKey().equals(user.getUid())) {
-            textViewNameUser.setText(user.getDisplayName());
-            textViewAccount.setText(user.getEmail());
-            textViewAddress.setText("");
-            textViewPhone.setText(user.getPhoneNumber());
-            textViewEmail.setText(user.getEmail());
-            Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
-        } else {
-            if (dataSnapshot.getKey().equals(user.getUid())) {
-                FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
+                          final ImageView imageViewAvatar,
+                          final ImageView imageCover) {
+        if (dataSnapshot.getKey().equals(user.getUid())) {
+            FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
 
-                if (userInformation.getPhone() != null) {
-                    textViewPhone.setText(userInformation.getPhone());
-                } else if (user.getPhoneNumber() != null) {
-                    textViewPhone.setText(user.getPhoneNumber());
-                }
-
-                if (userInformation.getName() != null) {
-                    textViewNameUser.setText(userInformation.getName());
-                } else if (user.getDisplayName() != null) {
-                    textViewAddress.setText(user.getDisplayName());
-                }
-
-                if (userInformation.getImageUrl() != null) {
-                    Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageViewAvatar);
-                } else if (user.getPhotoUrl() != null) {
-                    Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
-                } else {
-                    imageViewAvatar.setImageResource(R.drawable.no_image);
-                }
-
-                textViewEmail.setText(userInformation.getEmail());
-                textViewAccount.setText(user.getEmail());
-
-                textViewAddress.setText(userInformation.getAddress());
+            //set phone value
+            if (userInformation.getPhone() != null) {
+                textViewPhone.setText(userInformation.getPhone());
+            } else if (user.getPhoneNumber() != null) {
+                textViewPhone.setText(user.getPhoneNumber());
             }
+            // set display name value
+            if (userInformation.getName() != null) {
+                textViewNameUser.setText(userInformation.getName());
+            } else if (user.getDisplayName() != null) {
+                textViewNameUser.setText(user.getDisplayName());
+            }
+            // set email value
+            if (userInformation.getEmail() != null) {
+                textViewEmail.setText(userInformation.getName());
+            } else if (user.getEmail() != null) {
+                textViewEmail.setText(user.getDisplayName());
+            }
+            // set image value
+            if (userInformation.getImageUrl() != null) {
+                Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageViewAvatar);
+            } else if (user.getPhotoUrl() != null) {
+                Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
+            } else {
+                imageViewAvatar.setImageResource(R.drawable.no_image);
+            }
+            // set cover image value
+            if (userInformation.getCoverUrl() != null) {
+                Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageCover);
+            } else if (user.getPhotoUrl() != null) {
+                Glide.with(context).load(user.getPhotoUrl()).into(imageCover);
+            } else {
+                imageCover.setImageResource(R.drawable.no_image);
+            }
+
+            textViewAccount.setText(user.getEmail());
+            textViewAddress.setText(userInformation.getAddress());
         }
     }
 }
