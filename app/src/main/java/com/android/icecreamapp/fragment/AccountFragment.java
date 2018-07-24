@@ -313,7 +313,7 @@ public class AccountFragment extends Fragment {
     private void bindDataUser(FirebaseUser user, View view) {
 
         FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
-        firebaseDatabaseHelper.isUserKeyExist(user, getContext(), textViewNameUser, textViewPhone, textViewEmail, textViewAddress, textViewAccount, imageViewAvatar);
+        firebaseDatabaseHelper.isUserKeyExist(user, getContext(), textViewNameUser, textViewPhone, textViewEmail, textViewAddress, textViewAccount, imageViewAvatar, imageViewCover);
         List<String> providers = user.getProviders();
         switch (providers.get(0)) {
             case "facebook.com":
