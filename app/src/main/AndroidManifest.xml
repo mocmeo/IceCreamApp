@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.icecreamapp">
+
     <application
         android:name=".firebase.FirebaseApplication"
         android:allowBackup="true"
@@ -21,12 +22,12 @@
         </activity>
         <activity
             android:name=".activity.HomeActivity"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity android:name=".activity.IntroActivity" />
+            android:theme="@style/AppTheme"></activity>
         <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.ProductDetailActivity"
-            android:theme="@style/AppTheme.TransparentTheme">
+        <activity
+            android:name=".activity.ProductDetailActivity"
+            android:theme="@style/AppTheme.TransparentTheme"></activity>
+        <activity android:name=".activity.IntroActivity">
 
         </activity>
     </application>

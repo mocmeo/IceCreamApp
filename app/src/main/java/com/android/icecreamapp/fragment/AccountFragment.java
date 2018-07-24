@@ -14,11 +14,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.activity.LoginActivity;
 import com.android.icecreamapp.firebase.FirebaseApplication;
 import com.android.icecreamapp.firebase.FirebaseDatabaseHelper;
 import com.android.icecreamapp.firebase.FirebaseStorageHelper;
@@ -34,6 +36,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +55,7 @@ public class AccountFragment extends Fragment {
     EditText textViewAddress;
     EditText textViewAccount;
     ImageView imageViewAvatar;
+    ImageView imageViewCover;
 
     EditText textViewOldPassword;
     EditText textViewPassword;
@@ -61,6 +66,9 @@ public class AccountFragment extends Fragment {
     ImageView imageViewEditProfile;
     ImageView imageViewSaveProfile;
     ImageView imageViewCancelEdit;
+
+
+    Button buttonSignOut;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -104,7 +112,7 @@ public class AccountFragment extends Fragment {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                 FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
-                firebaseDatabaseHelper.updateUserInFirebaseDatabase(user.getUid(), new FirebaseUserEntity(user.getUid(), email, name, phone, address, ""));
+                firebaseDatabaseHelper.updateUserInFirebaseDatabase(user.getUid(), new FirebaseUserEntity(user.getUid(), email, name, phone, address, "",""));
                 settingEditProfile(false);
             }
         });
@@ -128,12 +136,11 @@ public class AccountFragment extends Fragment {
                 String reAuthEmail = textViewAccount.getText().toString();
                 String reAuthPassword = textViewOldPassword.getText().toString();
                 final String newPassword = textViewPassword.getText().toString();
-                if(TextUtils.isEmpty(reAuthPassword)){
+                if (TextUtils.isEmpty(reAuthPassword)) {
                     UserHelper.displayMessageToast(getContext(), "Old password field must be filled");
-                }
-                else if(TextUtils.isEmpty(newPassword)){
+                } else if (TextUtils.isEmpty(newPassword)) {
                     UserHelper.displayMessageToast(getContext(), "New password field must be filled");
-                }else{
+                } else {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     // Get auth credentials from the user for re-authentication
                     AuthCredential credential = EmailAuthProvider
@@ -153,7 +160,7 @@ public class AccountFragment extends Fragment {
                                                     if (task.isSuccessful()) {
                                                         UserHelper.displayMessageToast(getContext(), "Update Password success");
                                                         settingEditAccount(false);
-                                                    }else{
+                                                    } else {
                                                         UserHelper.displayMessageToast(getContext(), "Password should be at least 6 characters");
                                                     }
                                                 }
@@ -175,7 +182,30 @@ public class AccountFragment extends Fragment {
             public void onClick(View v) {
                 final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, UserHelper.SELECT_PICTURE);
+                startActivityForResult(galleryIntent, UserHelper.SELECT_PICTURE_AVATAR);
+            }
+        });
+
+        imageViewCover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, UserHelper.SELECT_PICTURE_COVER);
+            }
+        });
+
+        buttonSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
             }
         });
 
@@ -220,7 +250,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void settingEditAccount(boolean isEdit) {
-        if(isEdit){
+        if (isEdit) {
             textViewAccount.setVisibility(View.GONE);
             textViewOldPassword.setVisibility(View.VISIBLE);
             imageViewEditAccount.setVisibility(View.GONE);
@@ -237,7 +267,7 @@ public class AccountFragment extends Fragment {
 
             textViewOldPassword.setEnabled(true);
             textViewPassword.setEnabled(true);
-        }else{
+        } else {
             textViewAccount.setVisibility(View.VISIBLE);
             textViewOldPassword.setVisibility(View.GONE);
             imageViewEditAccount.setVisibility(View.VISIBLE);
@@ -265,6 +295,7 @@ public class AccountFragment extends Fragment {
         textViewAddress = view.findViewById(R.id.textViewAddress);
         textViewAccount = view.findViewById(R.id.textViewAccount);
         imageViewAvatar = view.findViewById(R.id.imageViewAvatar);
+        imageViewCover = view.findViewById(R.id.imageViewCover);
         textViewOldPassword = view.findViewById(R.id.textViewOldPassword);
         textViewPassword = view.findViewById(R.id.textViewPassword);
 
@@ -275,19 +306,32 @@ public class AccountFragment extends Fragment {
         imageViewSaveAccount = view.findViewById(R.id.imageViewSaveAccount);
         imageViewCancelEditAccount = view.findViewById(R.id.imageViewCancelEditAccount);
 
+        buttonSignOut = view.findViewById(R.id.buttonSignOut);
+
     }
 
     private void bindDataUser(FirebaseUser user, View view) {
 
         FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
         firebaseDatabaseHelper.isUserKeyExist(user, getContext(), textViewNameUser, textViewPhone, textViewEmail, textViewAddress, textViewAccount, imageViewAvatar);
+        List<String> providers = user.getProviders();
+        switch (providers.get(0)) {
+            case "facebook.com":
+                imageViewEditAccount.setVisibility(View.GONE);
+                break;
+            case "google.com":
+                imageViewEditAccount.setVisibility(View.GONE);
+                break;
+            default:
+                imageViewEditAccount.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("user id has entered onActivityResult ");
-        if (requestCode == UserHelper.SELECT_PICTURE) {
+        if (requestCode == UserHelper.SELECT_PICTURE_AVATAR) {
             Uri selectedImageUri = data.getData();
             FirebaseStorageHelper storageHelper = new FirebaseStorageHelper(getActivity());
 
@@ -296,7 +340,17 @@ public class AccountFragment extends Fragment {
                 return;
             }
             String id = ((FirebaseApplication) getActivity().getApplication()).getFirebaseUserAuthenticateId();
-            storageHelper.saveProfileImageToCloud(id, selectedImageUri, imageViewAvatar);
+            storageHelper.saveProfileImageToCloud(id, selectedImageUri, imageViewAvatar, UserHelper.SELECT_PICTURE_AVATAR);
+        }else if (requestCode == UserHelper.SELECT_PICTURE_COVER){
+            Uri selectedImageUri = data.getData();
+            FirebaseStorageHelper storageHelper = new FirebaseStorageHelper(getActivity());
+
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION);
+                return;
+            }
+            String id = ((FirebaseApplication) getActivity().getApplication()).getFirebaseUserAuthenticateId();
+            storageHelper.saveProfileImageToCloud(id, selectedImageUri, imageViewCover, UserHelper.SELECT_PICTURE_COVER);
         }
     }
 
