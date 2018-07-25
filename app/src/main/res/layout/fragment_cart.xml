@@ -15,13 +15,28 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/txt_message_cart"
-                android:textSize="30sp"
-                android:text="Your cart is empty!"
+
+            <LinearLayout
+                android:id="@+id/message_cart"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:textSize="27sp"
+                    android:text="Your cart is empty !"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#424242"/>
+
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/logo_ezkem"/>
+            </LinearLayout>
+
             <ListView
                 android:id="@+id/lvCart"
                 android:layout_width="match_parent"

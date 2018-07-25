@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,7 +26,8 @@ public class CartFragment extends Fragment {
 
     private ListView lvCart;
     private Toolbar toolbar;
-    private TextView txtMessage;
+    private LinearLayout messageCart;
+
     private Button btnConfirm;
     private TextView txtFinalPrice;
 
@@ -60,11 +62,11 @@ public class CartFragment extends Fragment {
 
     private void checkData() {
         if (Cart.orderLinesList.size() <= 0) {
-            txtMessage.setVisibility(View.VISIBLE);
+            messageCart.setVisibility(View.VISIBLE);
             lvCart.setVisibility(View.INVISIBLE);
         } else {
             lvCart.setVisibility(View.VISIBLE);
-            txtMessage.setVisibility(View.INVISIBLE);
+            messageCart.setVisibility(View.INVISIBLE);
         }
         cartAdapter.notifyDataSetChanged();
     }
@@ -87,7 +89,7 @@ public class CartFragment extends Fragment {
 
     private void mapping(View rootView) {
         lvCart = rootView.findViewById(R.id.lvCart);
-        txtMessage = rootView.findViewById(R.id.txt_message_cart);
+        messageCart = rootView.findViewById(R.id.message_cart);
         btnConfirm = rootView.findViewById(R.id.btn_confirm_cart);
         txtFinalPrice = rootView.findViewById(R.id.total_price_cart);
 
