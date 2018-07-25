@@ -148,6 +148,13 @@ public class CartAdapter extends ArrayAdapter {
                         parentFragment.updateAdapter();
                         badgeHandler();
                         UserHelper.displayMessageToast(getContext(), "Remove item successfully!");
+
+                        if(Cart.orderLinesList.size() <= 0){
+                            parentFragment.bottom_navigation_cart.setVisibility(View.GONE);
+                        }else{
+                            parentFragment.bottom_navigation_cart.setVisibility(View.VISIBLE);
+                        }
+                        parentFragment.txtFinalPrice.setText("0đ");
                     }
                 });
 

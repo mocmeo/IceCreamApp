@@ -41,10 +41,10 @@ public class CartFragment extends Fragment {
     private Toolbar toolbar;
     private LinearLayout messageCart;
 
-    private LinearLayout bottom_navigation_cart;
+    public LinearLayout bottom_navigation_cart;
 
     private Button btnConfirm;
-    private TextView txtFinalPrice;
+    public TextView txtFinalPrice;
 
     private CartAdapter newcartAdapter;
 
@@ -176,7 +176,6 @@ public class CartFragment extends Fragment {
 
     public void updateAdapter() {
         newcartAdapter.notifyDataSetChanged();
-
     }
 
 }
