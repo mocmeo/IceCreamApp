@@ -1,4 +1,4 @@
-package com.android.icecreamapp.activity;
+package com.android.icecreamapp.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -25,15 +25,15 @@ public class SliderAdaper extends PagerAdapter {
     };
 
     public String[] slide_headings = {
-            "HEADING 1",
-            "HEADING 2",
-            "HEADING 3"
+            "ICECREAM EZKEM",
+            "ABOUT US",
+            "SWEET ICECREAM"
     };
 
     public String[] slide_descriptions = {
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam."
+            "Ice cream parlors (or parlours) are restaurants that sell ice cream, gelato, sorbet, and frozen yogurt to consumers.",
+            "Ez-Kem represents everything from old-school custard outposts and soft-serve emporiums to new-wave artisan",
+            "Next time you're craving a sweet scoop (or two), do yourself a favor. Just go to Ez-Kem parlor!"
     };
 
     public SliderAdaper(Context context) {

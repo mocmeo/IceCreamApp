@@ -1,9 +1,11 @@
 package com.android.icecreamapp.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.icecreamapp.R;
 import com.android.icecreamapp.activity.HomeActivity;
 import com.android.icecreamapp.fragment.CartFragment;
 import com.android.icecreamapp.model.Cart;
 import com.android.icecreamapp.model.OrderLine;
+import com.android.icecreamapp.util.UserHelper;
 import com.bumptech.glide.Glide;
 
 import java.text.DecimalFormat;
@@ -58,7 +62,7 @@ public class CartAdapter extends ArrayAdapter {
             holder.btnMinus = convertView.findViewById(R.id.btn_minus_cart);
             holder.btnPlus = convertView.findViewById(R.id.btn_plus_cart);
             holder.edtValue = convertView.findViewById(R.id.quantity_cart);
-
+            holder.btnDelete = convertView.findViewById(R.id.btn_delete_cart);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -128,6 +132,35 @@ public class CartAdapter extends ArrayAdapter {
                 badgeHandler();
             }
         });
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("Remove item?");
+                alertDialog.setIcon(R.drawable.icon_app);
+                alertDialog.setMessage("Do you want to remove this item?");
+
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Cart.orderLinesList.remove(arrayOrderlines.get(position));
+                        parentFragment.updateAdapter();
+                        badgeHandler();
+                        UserHelper.displayMessageToast(getContext(), "Remove item successfully!");
+                    }
+                });
+
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+                alertDialog.show();
+
+            }
+        });
         return convertView;
     }
 
@@ -141,6 +174,8 @@ public class CartAdapter extends ArrayAdapter {
         if (qty > 0) {
             HomeActivity.badge.bindTarget(v)
                     .setBadgeNumber(qty).setGravityOffset(20, 4, true);
+        } else {
+            HomeActivity.badge.hide(true);
         }
     }
 
@@ -170,5 +205,6 @@ public class CartAdapter extends ArrayAdapter {
         public ImageView imgProduct, imgProductType;
         public ImageButton btnMinus, btnPlus;
         public EditText edtValue;
+        public ImageButton btnDelete;
     }
 }

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.adapter.SliderAdaper;
 
 public class IntroActivity extends AppCompatActivity {
 

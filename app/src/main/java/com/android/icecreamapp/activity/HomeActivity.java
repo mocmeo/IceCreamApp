@@ -112,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationMenuView bottomNavigationMenuView =
                 (BottomNavigationMenuView) bottomNavigation.getChildAt(0);
         View v = bottomNavigationMenuView.getChildAt(2); // number of menu from left
-
         int qty = Cart.countIcecream();
         if (qty > 0) {
             badge.bindTarget(v)

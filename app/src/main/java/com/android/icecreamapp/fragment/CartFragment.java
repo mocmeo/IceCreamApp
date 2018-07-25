@@ -1,13 +1,16 @@
 package com.android.icecreamapp.fragment;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -74,8 +77,26 @@ public class CartFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveOrder();
-                UserHelper.displayMessageToast(getContext(), "order success");
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("Order notice!");
+                alertDialog.setIcon(R.drawable.icon_app);
+                alertDialog.setMessage("Do you want to confirm this order?");
+
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveOrder();
+                        UserHelper.displayMessageToast(getContext(), "Checkout successfully!");
+                    }
+                });
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+                alertDialog.show();
+
             }
         });
 
@@ -151,6 +172,10 @@ public class CartFragment extends Fragment {
         newcartAdapter = new CartAdapter(getContext(), R.layout.layout_cart_item, Cart.orderLinesList,this);
         lvCart.setAdapter(newcartAdapter);
         lvCart.setEmptyView(messageCart);
+    }
+
+    public void updateAdapter() {
+        newcartAdapter.notifyDataSetChanged();
 
     }
 

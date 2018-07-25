@@ -139,7 +139,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                 .load(imgUrl)
                 .into(imageCart);
         nameCart.setText(product.getName());
-        descCart.setText(product.getDescription());
+        if(product.getDescription().length() > 100){
+            String des = product.getDescription().substring(0, 99) + "...";
+            descCart.setText(des);
+        } else {
+            descCart.setText(product.getDescription());
+        }
         priceCart.setText(decimalFormat.format(product.getPrice()) + " đ̲");
 
         builder.setView(view);
