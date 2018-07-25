@@ -154,7 +154,7 @@
                         android:gravity="center"
                         android:text="1"
                         android:textColor="#616161"
-                        android:textSize="22sp" />
+                        android:textSize="21sp" />
 
                     <ImageButton
                         android:id="@+id/btn_plus_cart"
