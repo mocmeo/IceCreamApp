@@ -31,7 +31,7 @@ public class CartFragment extends Fragment {
     private Button btnConfirm;
     private TextView txtFinalPrice;
 
-    private CartAdapter cartAdapter;
+    private CartAdapter newcartAdapter;
 
     public CartFragment() {
         // Required empty public constructor
@@ -57,7 +57,7 @@ public class CartFragment extends Fragment {
             finalPrice += Cart.orderLinesList.get(i).getTotalPrice();
         }
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        txtFinalPrice.setText(decimalFormat.format(finalPrice) + " đ");
+        txtFinalPrice.setText(decimalFormat.format(finalPrice) + "đ");
     }
 
     private void checkData() {
@@ -68,7 +68,7 @@ public class CartFragment extends Fragment {
             lvCart.setVisibility(View.VISIBLE);
             messageCart.setVisibility(View.INVISIBLE);
         }
-        cartAdapter.notifyDataSetChanged();
+        newcartAdapter.notifyDataSetChanged();
     }
 
     private void actionToolbar() {
@@ -84,7 +84,7 @@ public class CartFragment extends Fragment {
 
     public void setTextPrice(long price) {
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        txtFinalPrice.setText(decimalFormat.format(price) + " đ");
+        txtFinalPrice.setText(decimalFormat.format(price) + "đ");
     }
 
     private void mapping(View rootView) {
@@ -93,8 +93,8 @@ public class CartFragment extends Fragment {
         btnConfirm = rootView.findViewById(R.id.btn_confirm_cart);
         txtFinalPrice = rootView.findViewById(R.id.total_price_cart);
 
-        cartAdapter = new CartAdapter(getActivity(), Cart.orderLinesList, this);
-        lvCart.setAdapter(cartAdapter);
+        newcartAdapter = new CartAdapter(getContext(), R.layout.layout_cart_item, Cart.orderLinesList, this);
+        lvCart.setAdapter(newcartAdapter);
     }
 
 }

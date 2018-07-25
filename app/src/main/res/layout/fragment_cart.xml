@@ -40,7 +40,10 @@
             <ListView
                 android:id="@+id/lvCart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:divider="@null"
+                android:dividerHeight="0dp">
             </ListView>
         </FrameLayout>
     </LinearLayout>
@@ -77,10 +80,10 @@
                     android:id="@+id/total_price_cart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20,000 đ"
+                    android:text="20,000đ"
                     android:textColor="#b71c1c"
                     android:textStyle="bold"
-                    android:textSize="13sp"/>
+                    android:textSize="12.5sp"/>
             </LinearLayout>
 
             <Button

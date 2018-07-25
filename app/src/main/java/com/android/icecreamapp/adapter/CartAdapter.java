@@ -1,11 +1,12 @@
 package com.android.icecreamapp.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,73 +17,71 @@ import com.android.icecreamapp.fragment.CartFragment;
 import com.android.icecreamapp.model.Cart;
 import com.android.icecreamapp.model.OrderLine;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class CartAdapter extends BaseAdapter {
+public class CartAdapter extends ArrayAdapter {
 
     private Context context;
+    private int layout;
     private ArrayList<OrderLine> arrayOrderlines;
     private CartFragment parentFragment;
 
-    public CartAdapter(Context context, ArrayList<OrderLine> arrayOrderlines, CartFragment parentFragment) {
+    public CartAdapter(@NonNull Context context, int resource, @NonNull ArrayList<OrderLine> arrayOrderlines, CartFragment parentFragment) {
+        super(context, resource, arrayOrderlines);
         this.context = context;
+        this.layout = resource;
         this.arrayOrderlines = arrayOrderlines;
         this.parentFragment = parentFragment;
-
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        return arrayOrderlines.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return arrayOrderlines.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.layout_cart_item, null);
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            holder.txtCartName = convertView.findViewById(R.id.name_cart_item);
-            holder.txtCartPrice = convertView.findViewById(R.id.price_cart_item);
-            holder.imgCart = convertView.findViewById(R.id.image_cart_item);
+            convertView = layoutInflater.inflate(layout, null);
+            holder.txtProductType = convertView.findViewById(R.id.txtProductTypeCart);
+            holder.txtProductName = convertView.findViewById(R.id.name_cart_item);
+            holder.txtProductDesc = convertView.findViewById(R.id.desc_cart_item);
+            holder.txtProductPrice = convertView.findViewById(R.id.price_cart_item);
+            holder.imgProduct = convertView.findViewById(R.id.image_cart_item);
+            holder.imgProductType = convertView.findViewById(R.id.imgProductTypeCart);
             holder.btnMinus = convertView.findViewById(R.id.btn_minus_cart);
             holder.btnPlus = convertView.findViewById(R.id.btn_plus_cart);
             holder.edtValue = convertView.findViewById(R.id.quantity_cart);
 
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder)convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
 
         final DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        final OrderLine orderLine = arrayOrderlines.get(position);
+        final OrderLine orderline = arrayOrderlines.get(position);
 
-        holder.txtCartName.setText(orderLine.getProduct().getName());
-        holder.txtCartPrice.setText(decimalFormat.format(orderLine.getProduct().getPrice()));
-
-        Glide.with(context)
-                .asBitmap()
-                .apply(new RequestOptions()
-                        .placeholder(R.drawable.no_image)
-                        .fitCenter())
-                .load(orderLine.getProduct().getImage())
-                .into(holder.imgCart);
-        holder.edtValue.setText(String.valueOf(orderLine.getQuantity()));
+        if (getCount() > 0) {
+            holder.txtProductName.setText(orderline.getProduct().getName());
+            holder.txtProductPrice.setText(decimalFormat.format(orderline.getProduct().getPrice()) + "đ");
+            Glide.with(this.context)
+                    .load(orderline.getProduct().getImage())
+                    .into(holder.imgProduct);
+            if(orderline.getProduct().getIdType() == 1){
+                holder.txtProductType.setText("ICE CREAM");
+                holder.imgProductType.setImageResource(R.drawable.icecream_label);
+            }else{
+                holder.txtProductType.setText("MILKSHAKE");
+                holder.imgProductType.setImageResource(R.drawable.milkshake_label);
+            }
+            if(orderline.getProduct().getDescription().length() > 28){
+                String des = orderline.getProduct().getDescription().substring(0, 27) + "...";
+                holder.txtProductDesc.setText(des);
+            }
+            holder.edtValue.setText(String.valueOf(orderline.getQuantity()));
+        }
 
         final ViewHolder finalHolder = holder;
 
@@ -92,13 +91,13 @@ public class CartAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int newQty = Integer.parseInt(finalHolder.edtValue.getText().toString()) + 1;
-                int currentQty = orderLine.getQuantity();
-                long currentPrice = orderLine.getTotalPrice();
+                int currentQty = orderline.getQuantity();
+                long currentPrice = orderline.getTotalPrice();
 
                 arrayOrderlines.get(position).setQuantity(newQty);
                 long newPrice = (currentPrice * newQty) / currentQty;
                 arrayOrderlines.get(position).setTotalPrice(newPrice);
-                finalHolder.txtCartPrice.setText(decimalFormat.format(newPrice) + " đ");
+//                finalHolder.txtProductPrice.setText(decimalFormat.format(newPrice) + " đ");
                 finalHolder.edtValue.setText(String.valueOf(newQty));
 
                 setVisible(finalHolder, newQty);
@@ -110,20 +109,19 @@ public class CartAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int newQty = Integer.parseInt(finalHolder.edtValue.getText().toString()) - 1;
-                int currentQty = orderLine.getQuantity();
-                long currentPrice = orderLine.getTotalPrice();
+                int currentQty = orderline.getQuantity();
+                long currentPrice = orderline.getTotalPrice();
 
                 arrayOrderlines.get(position).setQuantity(newQty);
                 long newPrice = (currentPrice * newQty) / currentQty;
                 arrayOrderlines.get(position).setTotalPrice(newPrice);
-                finalHolder.txtCartPrice.setText(decimalFormat.format(newPrice) + " đ");
+//                finalHolder.txtProductPrice.setText(decimalFormat.format(newPrice) + " đ");
                 finalHolder.edtValue.setText(String.valueOf(newQty));
 
                 setVisible(finalHolder, newQty);
                 calculatePrice();
             }
         });
-
         return convertView;
     }
 
@@ -149,12 +147,9 @@ public class CartAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        public TextView txtCartName, txtCartPrice;
-        public ImageView imgCart;
+        public TextView txtProductName, txtProductType, txtProductPrice, txtProductDesc;
+        public ImageView imgProduct, imgProductType;
         public ImageButton btnMinus, btnPlus;
         public EditText edtValue;
-
-        public ViewHolder() {
-        }
     }
 }

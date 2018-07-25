@@ -1,98 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="3.5">
+        android:layout_margin="5dp"
+        android:elevation="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/image_cart_item"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_margin="5dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/no_image" />
-        </LinearLayout>
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="7"
-            android:orientation="vertical">
+            </ImageView>
 
-            <TextView
-                android:id="@+id/name_cart_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Product name"
-                android:textColor="#10100f"
-                android:textSize="18sp" />
+            <FrameLayout
+                android:layout_width="100dp"
+                android:layout_height="22dp"
+                android:layout_alignBottom="@+id/image_cart_item"
+                android:layout_marginRight="15dp">
 
-            <TextView
-                android:id="@+id/price_cart_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="100,000 đ"
-                android:textColor="#f20"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.5"
+                    android:background="#212121" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgProductTypeCart"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icecream_label" />
+
+                    <TextView
+                        android:id="@+id/txtProductTypeCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="ICE CREAM"
+                        android:textColor="#FBC02D"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="120dp"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/image_cart_item"
+                android:paddingLeft="10dp">
 
-                <ImageButton
-                    android:id="@+id/btn_minus_cart"
-                    android:layout_width="18dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@null"
-                    android:src="@drawable/btn_minus_blue" />
+                <TextView
+                    android:id="@+id/name_cart_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chocolate"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/quantity_cart"
-                    android:layout_width="41dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="#616161"
-                    android:textSize="25sp" />
+                <TextView
+                    android:id="@+id/desc_cart_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/name_cart_item"
+                    android:layout_marginTop="5dp"
+                    android:text="Cinco de Mayo is on Thursday"
+                    android:textColor="@color/information_color"
+                    android:textSize="13sp" />
 
-                <ImageButton
-                    android:id="@+id/btn_plus_cart"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@null"
-                    android:src="@drawable/btn_plus_blue" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                        android:id="@+id/rating_icecream_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srb_borderColor="@color/blue"
+                        android:layout_marginTop="5dp"
+                        app:srb_numberOfStars="5"
+                        app:srb_rating="3"
+                        app:srb_starSize="12dp"
+                        app:srb_stepSize="0.5" />
+
+
+                    <TextView
+                        android:id="@+id/price_cart_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:text="Price"
+                        android:textColor="#D84315"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_minus_cart"
+                        android:layout_width="16dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@null"
+                        android:src="@drawable/btn_minus_blue" />
+
+                    <EditText
+                        android:id="@+id/quantity_cart"
+                        android:layout_width="41dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="#616161"
+                        android:textSize="22sp" />
+
+                    <ImageButton
+                        android:id="@+id/btn_plus_cart"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@null"
+                        android:src="@drawable/btn_plus_blue" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-    </LinearLayout>
+        </RelativeLayout>
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
