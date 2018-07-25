@@ -62,7 +62,7 @@ public class FirebaseApplication extends Application {
                             UserHelper.displayMessageToast(context, "Failed to login");
                         }else {
                             FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
-                            firebaseDatabaseHelper.checkExistUserInformation(getFirebaseUserAuthenticateId());
+                            firebaseDatabaseHelper.checkExistUserInformation(firebaseAuth.getCurrentUser());
                             UserHelper.displayMessageToast(context, "User has been login");
                             Intent profileIntent = new Intent(context, HomeActivity.class);
                             context.startActivity(profileIntent);

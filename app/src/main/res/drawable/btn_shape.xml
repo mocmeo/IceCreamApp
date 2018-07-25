@@ -8,9 +8,8 @@
                 android:height="50dp" />
             <solid android:color="#0072BC" />
             <corners android:radius="0dp"/>
-            <gradient
-                android:startColor="#26C6DA"
-                android:endColor="#0277BD"
+            <gradient android:startColor="#7117EA"
+                android:endColor="#EA6060"
                 android:angle="45" />
         </shape>
     </item>

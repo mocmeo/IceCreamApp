@@ -8,7 +8,7 @@
     tools:context=".activity.HomeActivity">
 
     <android.support.v4.widget.NestedScrollView
-        android:background="#f5f5f5"
+        android:background="@android:color/transparent"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -18,62 +18,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/bottom_navigation_detail"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignParentBottom="true"
-                android:background="#fff"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#F5F5F5">
-
-                    <LinearLayout
-                        android:id="@+id/btn_home_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginStart="20dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ezKem"
-                            android:textColor="#0288D1"
-                            android:textStyle="bold"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <Button
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="250dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="right"
-                        android:background="@drawable/btn_shape_home"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:text="Search"
-                        android:drawableEnd="@drawable/baseline_search_white"
-                        android:textColor="#fff"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-
-
             <com.daimajia.slider.library.SliderLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:id="@+id/sliderHome"
                 android:layout_width="match_parent"
-                android:layout_height="220dp">
+                android:elevation="10dp"
+                android:layout_height="170dp">
             </com.daimajia.slider.library.SliderLayout>
 
 
@@ -82,11 +34,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="3dp"
-                android:paddingTop="10dp">
+                android:paddingTop="5dp">
 
                 <TextView
-                    android:textSize="18sp"
-                    android:textColor="#01579B"
+                    android:textSize="16sp"
+                    android:textColor="#7117EA"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
                     android:text="● MILKSHAKE"
@@ -97,21 +49,24 @@
                     android:id="@+id/rvMilkshakeHome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
                 </android.support.v7.widget.RecyclerView>
 
                 <TextView
-                    android:textSize="18sp"
-                    android:textColor="#01579B"
+                    android:textSize="16sp"
+                    android:textColor="#7117EA"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="● ICE CREAM"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/rvIcecreamHome"

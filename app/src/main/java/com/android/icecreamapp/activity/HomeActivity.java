@@ -17,6 +17,7 @@ import com.android.icecreamapp.fragment.CartFragment;
 import com.android.icecreamapp.fragment.HomeFragment;
 import com.android.icecreamapp.fragment.SearchFragment;
 import com.android.icecreamapp.util.BottomNavigationViewHelper;
+import com.android.icecreamapp.util.TweakUI;
 import com.viven.fragmentstatemanager.FragmentStateManager;
 
 public class HomeActivity extends AppCompatActivity {
@@ -44,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         mapping();
         initFragment();
         fragmentHandler();
+        TweakUI.makeTransparent(this);
         setFragment(homeFragment);
         redirectFragment();
     }

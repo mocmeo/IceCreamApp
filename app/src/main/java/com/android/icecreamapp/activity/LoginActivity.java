@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             FirebaseDatabaseHelper firebaseDatabaseHelper = new FirebaseDatabaseHelper();
-            firebaseDatabaseHelper.checkExistUserInformation(user.getUid());
+            firebaseDatabaseHelper.checkExistUserInformation(user);
             Toast.makeText(this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);

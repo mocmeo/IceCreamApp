@@ -8,7 +8,9 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:elevation="7dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -17,7 +19,7 @@
             <ImageView
                 android:id="@+id/image_icecream_home"
                 android:layout_width="match_parent"
-                android:layout_height="165dp"
+                android:layout_height="130dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher">
 
@@ -26,8 +28,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:layout_alignBottom="@+id/image_icecream_home"
-                android:layout_marginRight="15dp">
+                android:layout_alignBottom="@+id/image_icecream_home">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -66,10 +67,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/image_icecream_home"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="5dp"
                 android:text="Canada"
                 android:textColor="#000"
-                android:textSize="14sp" />
+                android:textStyle="bold"
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/price_icecream_home"
@@ -78,24 +80,22 @@
                 android:layout_below="@id/name_icecream_home"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:text="Price"
                 android:textColor="#D84315"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textSize="13sp"/>
 
             <com.iarcuschin.simpleratingbar.SimpleRatingBar
                 android:id="@+id/rating_icecream_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/price_icecream_home"
-                app:srb_borderColor="@color/blue"
                 app:srb_numberOfStars="5"
                 app:srb_rating="3"
                 app:srb_starSize="12dp"
                 app:srb_stepSize="0.5"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"/>
         </RelativeLayout>
 

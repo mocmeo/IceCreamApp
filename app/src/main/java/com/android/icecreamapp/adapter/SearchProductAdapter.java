@@ -44,6 +44,7 @@ public class SearchProductAdapter extends ArrayAdapter<Product> {
             convertView = layoutInflater.inflate(layout, null);
             holder.textViewProductType = convertView.findViewById(R.id.textViewProductType);
             holder.textViewProductName = convertView.findViewById(R.id.textViewProductName);
+            holder.textViewProductDescription = convertView.findViewById(R.id.textViewProductDescription);
             holder.textViewProductPrice = convertView.findViewById(R.id.textViewProductPrice);
             holder.imageViewProduct = convertView.findViewById(R.id.imageViewProduct);
             holder.imageViewProducType = convertView.findViewById(R.id.imageViewProducType);
@@ -64,6 +65,10 @@ public class SearchProductAdapter extends ArrayAdapter<Product> {
                 holder.textViewProductType.setText("MILKSHAKE");
                 holder.imageViewProducType.setImageResource(R.drawable.milkshake_label);
             }
+            if(p.getDescription().length() > 30){
+                String des = p.getDescription().substring(0, 29) + "...";
+                holder.textViewProductDescription.setText(des);
+            }
 
         }
         //add animation
@@ -76,6 +81,7 @@ public class SearchProductAdapter extends ArrayAdapter<Product> {
         TextView textViewProductType;
         TextView textViewProductName;
         TextView textViewProductPrice;
+        TextView textViewProductDescription;
         ImageView imageViewProduct;
         ImageView imageViewProducType;
 

@@ -38,7 +38,7 @@ public class FirebaseDatabaseHelper {
         databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void checkExistUserInformation(final String userId) {
+    public void checkExistUserInformation(final FirebaseUser user) {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = database.child("users");
         final List<FirebaseUserEntity> connectedUser = new ArrayList<>();
@@ -46,15 +46,19 @@ public class FirebaseDatabaseHelper {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    if (item.getKey().equals(userId)) {
+                    if (item.getKey().equals(user.getUid())) {
                         FirebaseUserEntity user = dataSnapshot.getValue(FirebaseUserEntity.class);
                         connectedUser.add(user);
                     }
                 }
                 if (connectedUser.size() == 0) {
-                    Map<String, FirebaseUserEntity> user = new HashMap<String, FirebaseUserEntity>();
-                    user.put(userId, new FirebaseUserEntity(userId));
-                    databaseReference.child("users").child(userId).setValue(new FirebaseUserEntity(userId));
+                    String userName = "";
+                    if(user.getDisplayName() != null){
+                        userName = user.getDisplayName();
+                    }else{
+                        userName = user.getEmail().substring(0, user.getEmail().indexOf("@"));
+                    }
+                    databaseReference.child("users").child(user.getUid()).setValue(new FirebaseUserEntity(user.getUid(),userName));
                 }
             }
 
@@ -130,18 +134,22 @@ public class FirebaseDatabaseHelper {
                 textViewPhone.setText(userInformation.getPhone());
             } else if (user.getPhoneNumber() != null) {
                 textViewPhone.setText(user.getPhoneNumber());
+            }else{
+                textViewPhone.setText("N/A");
             }
             // set display name value
             if (userInformation.getName() != null) {
                 textViewNameUser.setText(userInformation.getName());
             } else if (user.getDisplayName() != null) {
                 textViewNameUser.setText(user.getDisplayName());
+            }else{
+                textViewNameUser.setText("N/A");
             }
             // set email value
             if (userInformation.getEmail() != null) {
                 textViewEmail.setText(userInformation.getName());
             } else if (user.getEmail() != null) {
-                textViewEmail.setText(user.getDisplayName());
+                textViewEmail.setText(user.getEmail());
             }
             // set image value
             if (userInformation.getImageUrl() != null) {
@@ -161,7 +169,11 @@ public class FirebaseDatabaseHelper {
             }
 
             textViewAccount.setText(user.getEmail());
-            textViewAddress.setText(userInformation.getAddress());
+            if(userInformation.getAddress() != null){
+                textViewAddress.setText(userInformation.getAddress());
+            }else{
+                textViewAddress.setText("N/A");
+            }
         }
     }
 }

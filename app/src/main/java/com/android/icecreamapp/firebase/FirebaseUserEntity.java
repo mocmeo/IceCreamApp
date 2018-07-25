@@ -21,8 +21,9 @@ public class FirebaseUserEntity {
 
     }
 
-    public FirebaseUserEntity(String uId) {
+    public FirebaseUserEntity(String uId, String name) {
         this.uId = uId;
+        this.name = name;
     }
 
     public FirebaseUserEntity(String uId, String email, String name, String phone, String address, String imageUrl, String coverUrl) {
