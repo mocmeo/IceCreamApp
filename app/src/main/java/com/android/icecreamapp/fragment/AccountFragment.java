@@ -186,14 +186,14 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        imageViewCover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, UserHelper.SELECT_PICTURE_COVER);
-            }
-        });
+//        imageViewCover.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                galleryIntent.setType("image/*");
+//                startActivityForResult(galleryIntent, UserHelper.SELECT_PICTURE_COVER);
+//            }
+//        });
 
         buttonSignOut.setOnClickListener(new View.OnClickListener() {
             @Override

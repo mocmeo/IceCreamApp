@@ -147,7 +147,7 @@ public class FirebaseDatabaseHelper {
             }
             // set email value
             if (userInformation.getEmail() != null) {
-                textViewEmail.setText(userInformation.getName());
+                textViewEmail.setText(userInformation.getEmail());
             } else if (user.getEmail() != null) {
                 textViewEmail.setText(user.getEmail());
             }
