@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -11,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -38,6 +40,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import q.rorbin.badgeview.QBadgeView;
+
 public class ProductDetailActivity extends AppCompatActivity {
 
     private static final int NUM_COLUMNS = 2;
@@ -59,6 +63,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private DatabaseReference mData;
     private Product product;
+    private QBadgeView badge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         initRecyclerView();
         initImageBitmaps();
         activityHandler();
+
+        int qty = Cart.countIcecream();
+        if (qty > 0) {
+            badge.bindTarget(btnCart)
+                    .setBadgeNumber(qty)
+                    .setGravityOffset(2, true);
+        }
     }
 
     private void activityHandler() {
@@ -186,20 +198,17 @@ public class ProductDetailActivity extends AppCompatActivity {
                     long price = quantity * product.getPrice();
                     Cart.orderLinesList.add(OrderLine.generateOrderLine(product, quantity, price));
                 }
+
+                int qty = Cart.countIcecream();
+                if (qty > 0) {
+                    new QBadgeView(getApplicationContext())
+                            .bindTarget(btnCart)
+                            .setBadgeNumber(qty)
+                            .setGravityOffset(2, true);
+                }
                 dialog.dismiss();
             }
         });
-    }
-
-    private long refinePrice(String strPrice) {
-        StringBuilder price = new StringBuilder();
-
-        for (char ch: strPrice.toCharArray()) {
-            if (ch >= '0' && ch <= '9') {
-                price.append(ch);
-            }
-        }
-        return Long.parseLong(price.toString());
     }
 
     private int refineQuantity(int quantity) {
@@ -321,6 +330,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnHome = findViewById(R.id.btn_home_detail);
         btnCart = findViewById(R.id.btn_cart_detail);
         btnAddToCart = findViewById(R.id.btnAddToCart);
+        badge = new QBadgeView(this);
     }
 
     private void configToolbar() {

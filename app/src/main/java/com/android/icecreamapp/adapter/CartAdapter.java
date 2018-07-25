@@ -3,6 +3,7 @@ package com.android.icecreamapp.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.activity.HomeActivity;
 import com.android.icecreamapp.fragment.CartFragment;
 import com.android.icecreamapp.model.Cart;
 import com.android.icecreamapp.model.OrderLine;
@@ -20,6 +22,8 @@ import com.bumptech.glide.Glide;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import q.rorbin.badgeview.QBadgeView;
 
 public class CartAdapter extends ArrayAdapter {
 
@@ -102,6 +106,7 @@ public class CartAdapter extends ArrayAdapter {
 
                 setVisible(finalHolder, newQty);
                 calculatePrice();
+                badgeHandler();
             }
         });
 
@@ -120,9 +125,23 @@ public class CartAdapter extends ArrayAdapter {
 
                 setVisible(finalHolder, newQty);
                 calculatePrice();
+                badgeHandler();
             }
         });
         return convertView;
+    }
+
+    private void badgeHandler() {
+        HomeActivity homeActivity = (HomeActivity)parentFragment.getActivity();
+        BottomNavigationMenuView bottomNavigationMenuView =
+                (BottomNavigationMenuView) homeActivity.bottomNavigation.getChildAt(0);
+        View v = bottomNavigationMenuView.getChildAt(2); // number of menu from left
+
+        int qty = Cart.countIcecream();
+        if (qty > 0) {
+            HomeActivity.badge.bindTarget(v)
+                    .setBadgeNumber(qty).setGravityOffset(20, 4, true);
+        }
     }
 
     private void calculatePrice() {
