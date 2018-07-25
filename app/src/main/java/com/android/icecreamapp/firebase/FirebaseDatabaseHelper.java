@@ -130,20 +130,20 @@ public class FirebaseDatabaseHelper {
             FirebaseUserEntity userInformation = dataSnapshot.getValue(FirebaseUserEntity.class);
 
             //set phone value
-            if (userInformation.getPhone() != null) {
+            if (userInformation.getPhone() != null && !userInformation.getPhone().equals("")) {
                 textViewPhone.setText(userInformation.getPhone());
-            } else if (user.getPhoneNumber() != null) {
+            } else if (user.getPhoneNumber() != null && !user.getPhoneNumber().equals("")) {
                 textViewPhone.setText(user.getPhoneNumber());
             }else{
-                textViewPhone.setText("N/A");
+                textViewPhone.setHint("N/A");
             }
             // set display name value
-            if (userInformation.getName() != null) {
+            if (userInformation.getName() != null && !userInformation.getName().equals("")) {
                 textViewNameUser.setText(userInformation.getName());
-            } else if (user.getDisplayName() != null) {
+            } else if (user.getDisplayName() != null && !user.getDisplayName().equals("")) {
                 textViewNameUser.setText(user.getDisplayName());
             }else{
-                textViewNameUser.setText("N/A");
+                textViewNameUser.setHint("N/A");
             }
             // set email value
             if (userInformation.getEmail() != null) {
@@ -152,7 +152,7 @@ public class FirebaseDatabaseHelper {
                 textViewEmail.setText(user.getEmail());
             }
             // set image value
-            if (userInformation.getImageUrl() != null) {
+            if (userInformation.getImageUrl() != null && !userInformation.getImageUrl().equals("")) {
                 Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageViewAvatar);
             } else if (user.getPhotoUrl() != null) {
                 Glide.with(context).load(user.getPhotoUrl()).into(imageViewAvatar);
@@ -167,10 +167,10 @@ public class FirebaseDatabaseHelper {
             }
 
             textViewAccount.setText(user.getEmail());
-            if(userInformation.getAddress() != null){
+            if(userInformation.getAddress() != null && !userInformation.getAddress().equals("")){
                 textViewAddress.setText(userInformation.getAddress());
             }else{
-                textViewAddress.setText("N/A");
+                textViewAddress.setHint("N/A");
             }
         }
     }

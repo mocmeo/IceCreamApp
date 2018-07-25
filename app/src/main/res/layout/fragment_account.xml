@@ -107,6 +107,7 @@
                             android:padding="5dp"
                             android:textColor="@android:color/black"
                             android:textSize="20dp"
+                            android:singleLine="true"
                             android:textStyle="bold" />
 
                         <EditText
@@ -121,6 +122,7 @@
                             android:minWidth="200dp"
                             android:padding="5dp"
                             android:textColor="@android:color/darker_gray"
+                            android:singleLine="true"
                             android:textSize="14dp" />
 
                         <ImageView
@@ -157,6 +159,7 @@
                             android:gravity="fill_vertical"
                             android:padding="2dp"
                             android:textColor="@color/information_color"
+                            android:singleLine="true"
                             android:textSize="14dp" />
 
                         <EditText
@@ -169,6 +172,7 @@
                             android:drawablePadding="10dp"
                             android:enabled="false"
                             android:gravity="fill_vertical"
+                            android:singleLine="true"
                             android:padding="2dp"
                             android:textColor="@color/information_color"
                             android:textSize="14dp" />
@@ -258,6 +262,7 @@
                             android:enabled="false"
                             android:gravity="fill_vertical"
                             android:padding="2dp"
+                            android:singleLine="true"
                             android:textColor="@color/information_color"
                             android:textSize="14dp" />
 
@@ -270,6 +275,7 @@
                             android:drawableLeft="@drawable/ic_lock_24dp"
                             android:drawablePadding="10dp"
                             android:enabled="false"
+                            android:singleLine="true"
                             android:gravity="fill_vertical"
                             android:hint="Enter old password"
                             android:inputType="textPassword"
@@ -288,6 +294,7 @@
                             android:drawableLeft="@drawable/ic_lock_24dp"
                             android:drawablePadding="10dp"
                             android:enabled="false"
+                            android:singleLine="true"
                             android:gravity="fill_vertical"
                             android:hint="Enter new password"
                             android:inputType="textPassword"

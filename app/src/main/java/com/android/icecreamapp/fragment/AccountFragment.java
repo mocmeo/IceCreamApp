@@ -83,7 +83,7 @@ public class AccountFragment extends Fragment {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
-        View rootView = inflater.inflate(R.layout.fragment_account, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_account, container, false);
         mapping(rootView);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -99,6 +99,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 settingEditProfile(false);
+                bindDataUser(mAuth.getCurrentUser(), rootView);
             }
         });
         imageViewSaveProfile.setOnClickListener(new View.OnClickListener() {
