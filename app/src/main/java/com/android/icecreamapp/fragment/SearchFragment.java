@@ -57,6 +57,7 @@ public class SearchFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         editTextSearch = rootView.findViewById(R.id.editTextSearch);
+        editTextSearch.setText("");
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -65,15 +66,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                products.clear();
-                if(!s.toString().equals("")){
-                    for(Product p : arrProducts){
-                        if(p.getName().toUpperCase().contains(s.toString().toUpperCase())){
-                            products.add(p);
-                        }
-                    }
-                }
-                searchProductAdapter.notifyDataSetChanged();
+                searchProduct(s.toString());
             }
 
             @Override
@@ -157,5 +150,17 @@ public class SearchFragment extends Fragment {
             }
         });
 
+    }
+    private void searchProduct(String s){
+        products.clear();
+        if(!s.equals("")){
+            for(Product p : arrProducts){
+                if(p.getName().toUpperCase().contains(s.toString().toUpperCase())
+                        ||p.getName().toUpperCase().contains(s.toString().toUpperCase())) {
+                    products.add(p);
+                }
+            }
+        }
+        searchProductAdapter.notifyDataSetChanged();
     }
 }
