@@ -163,7 +163,7 @@
 
     <TextView
         android:textSize="18sp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/blue"
         android:textStyle="bold"
         android:layout_margin="10dp"
         android:text="● Related Products"

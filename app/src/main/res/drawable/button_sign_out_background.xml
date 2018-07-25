@@ -6,8 +6,8 @@
                 android:bottomLeftRadius="10dp"/>
             <solid android:color="#FDFDFE"/>
             <size android:height="35dp"/>
-            <gradient android:startColor="#7117EA"
-                android:endColor="#EA6060"/>
+            <gradient android:startColor="#0288D1"
+                android:endColor="#0277BD"/>
         </shape>
     </item>
 </selector>

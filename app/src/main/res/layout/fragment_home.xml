@@ -19,13 +19,10 @@
             android:orientation="vertical">
 
             <com.daimajia.slider.library.SliderLayout
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:id="@+id/sliderHome"
                 android:layout_width="match_parent"
                 android:elevation="10dp"
-                android:layout_height="170dp">
+                android:layout_height="185dp">
             </com.daimajia.slider.library.SliderLayout>
 
 
@@ -38,7 +35,7 @@
 
                 <TextView
                     android:textSize="16sp"
-                    android:textColor="#7117EA"
+                    android:textColor="@color/blue"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
                     android:text="● MILKSHAKE"
@@ -57,7 +54,7 @@
 
                 <TextView
                     android:textSize="16sp"
-                    android:textColor="#7117EA"
+                    android:textColor="@color/blue"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
                     android:layout_marginTop="5dp"
