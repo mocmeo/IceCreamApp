@@ -308,7 +308,7 @@
                         android:id="@+id/buttonSignOut"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:background="@drawable/button_background"
+                        android:background="@drawable/button_sign_out_background"
                         android:text="Sign Out"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
