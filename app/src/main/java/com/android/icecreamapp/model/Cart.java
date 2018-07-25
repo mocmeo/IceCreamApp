@@ -9,6 +9,14 @@ public class Cart {
     public static String uId;
     public static boolean statusConfirm;
 
+    public static int countIcecream() {
+        int qty = 0;
+        for (OrderLine orderline : orderLinesList) {
+            qty += orderline.getQuantity();
+        }
+        return qty;
+    }
+
     public Cart() {
     }
 

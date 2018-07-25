@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.activity.HomeActivity;
 import com.android.icecreamapp.adapter.CartAdapter;
 import com.android.icecreamapp.model.Cart;
 import com.android.icecreamapp.util.UserHelper;
@@ -25,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,7 +59,6 @@ public class CartFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_cart, container, false);
         databaseReference = FirebaseDatabase.getInstance().getReference("cart");
         mAuth = FirebaseAuth.getInstance();
-
 
         mapping(rootView);
         actionToolbar();
@@ -98,6 +100,9 @@ public class CartFragment extends Fragment {
             bottom_navigation_cart.setVisibility(View.VISIBLE);
         }
         txtFinalPrice.setText("0đ");
+
+        HomeActivity.badge.hide(true);
+
     }
 
     private void calculatePrice() {
@@ -143,7 +148,7 @@ public class CartFragment extends Fragment {
         txtFinalPrice = rootView.findViewById(R.id.total_price_cart);
         bottom_navigation_cart = rootView.findViewById(R.id.bottom_navigation_cart);
 
-        newcartAdapter = new CartAdapter(getContext(), R.layout.layout_cart_item, Cart.orderLinesList, this);
+        newcartAdapter = new CartAdapter(getContext(), R.layout.layout_cart_item, Cart.orderLinesList,this);
         lvCart.setAdapter(newcartAdapter);
         lvCart.setEmptyView(messageCart);
 
