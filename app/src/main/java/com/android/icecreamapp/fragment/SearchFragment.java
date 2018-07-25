@@ -36,7 +36,6 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment {
 
     private EditText editTextSearch;
-    private TextView textViewNumberResult;
     private ListView listViewSearch;
     private ArrayList<Product> arrProducts;
     private ArrayList<Product> products;
@@ -57,7 +56,6 @@ public class SearchFragment extends Fragment {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        textViewNumberResult = rootView.findViewById(R.id.textViewNumberResult);
         editTextSearch = rootView.findViewById(R.id.editTextSearch);
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -74,11 +72,6 @@ public class SearchFragment extends Fragment {
                             products.add(p);
                         }
                     }
-                }
-                if(products.isEmpty()){
-                    textViewNumberResult.setText("");
-                }else{
-                    textViewNumberResult.setText(products.size() + " results");
                 }
                 searchProductAdapter.notifyDataSetChanged();
             }

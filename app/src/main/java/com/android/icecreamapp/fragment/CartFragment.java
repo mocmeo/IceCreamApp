@@ -87,7 +87,6 @@ public class CartFragment extends Fragment {
 
     private void mapping(View rootView) {
         lvCart = rootView.findViewById(R.id.lvCart);
-        toolbar = rootView.findViewById(R.id.toolbar_cart);
         txtMessage = rootView.findViewById(R.id.txt_message_cart);
         btnConfirm = rootView.findViewById(R.id.btn_confirm_cart);
         txtFinalPrice = rootView.findViewById(R.id.total_price_cart);

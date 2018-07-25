@@ -27,20 +27,6 @@
             android:textColor="@color/white"/>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-
-    <TextView
-        android:id="@+id/textViewNumberResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
     <ListView
         android:id="@+id/listViewSearch"
         android:layout_width="match_parent"

@@ -162,10 +162,8 @@ public class FirebaseDatabaseHelper {
             // set cover image value
             if (userInformation.getCoverUrl() != null) {
                 Glide.with(context).load(Uri.parse(userInformation.getImageUrl())).into(imageCover);
-            } else if (user.getPhotoUrl() != null) {
-                Glide.with(context).load(user.getPhotoUrl()).into(imageCover);
             } else {
-                imageCover.setImageResource(R.drawable.no_image);
+                imageCover.setImageResource(R.drawable.intro_ice_cream);
             }
 
             textViewAccount.setText(user.getEmail());
