@@ -4,6 +4,9 @@ package com.android.icecreamapp.util;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UserHelper {
 
     public static final String NAME = "Name";
@@ -21,10 +24,10 @@ public class UserHelper {
     public static final int SELECT_PICTURE_COVER = 2100;
 
     public static boolean isValidEmail(String email){
-        if(email.contains("@")){
-            return true;
-        }
-        return false;
+            String emailPattern = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b";
+            Pattern p = Pattern.compile(emailPattern);
+            Matcher m = p.matcher(email);
+            return m.matches();
     }
 
     public static void displayMessageToast(Context context, String displayMessage){

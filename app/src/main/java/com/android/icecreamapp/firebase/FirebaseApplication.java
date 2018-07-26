@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.icecreamapp.activity.HomeActivity;
+import com.android.icecreamapp.activity.LoginActivity;
 import com.android.icecreamapp.util.UserHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,8 +45,10 @@ public class FirebaseApplication extends Application {
                 Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                 if (!task.isSuccessful()) {
                     UserHelper.displayMessageToast(context, "Register fail!");
+
                 }else{
                     UserHelper.displayMessageToast(context, "Register successful!");
+                    context.startActivity(new Intent(context, LoginActivity.class));
                 }
             }
         });
