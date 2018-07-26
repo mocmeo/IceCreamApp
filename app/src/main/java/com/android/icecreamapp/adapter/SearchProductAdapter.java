@@ -13,6 +13,7 @@ import com.android.icecreamapp.R;
 import com.android.icecreamapp.model.Product;
 import com.bumptech.glide.Glide;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class SearchProductAdapter extends ArrayAdapter<Product> {
@@ -52,7 +53,8 @@ public class SearchProductAdapter extends ArrayAdapter<Product> {
         final Product p = arrProduct.get(position);
         if (getCount() > 0) {
             holder.txtProductName.setText(p.getName());
-            holder.txtProductPrice.setText(String.valueOf(p.getPrice()) + "đ");
+            DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+            holder.txtProductPrice.setText(decimalFormat.format(p.getPrice()) + "đ");
             Glide.with(this.context).load(p.getImage()).into(holder.imgProduct);
             if(p.getIdType() == 1){
                 holder.txtProductType.setText("ICE CREAM");
