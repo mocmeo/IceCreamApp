@@ -18,6 +18,10 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
 
     @Override
+    public void onBackPressed() {
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);

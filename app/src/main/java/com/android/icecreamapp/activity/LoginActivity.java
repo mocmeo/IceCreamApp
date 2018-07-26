@@ -44,7 +44,12 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonSignIn;
     private TextView textViewSignUp;
     // For toolbar
+    //
 
+
+    @Override
+    public void onBackPressed() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

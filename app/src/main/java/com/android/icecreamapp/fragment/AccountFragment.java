@@ -22,11 +22,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.icecreamapp.R;
+import com.android.icecreamapp.activity.HomeActivity;
 import com.android.icecreamapp.activity.LoginActivity;
 import com.android.icecreamapp.firebase.FirebaseApplication;
 import com.android.icecreamapp.firebase.FirebaseDatabaseHelper;
 import com.android.icecreamapp.firebase.FirebaseStorageHelper;
 import com.android.icecreamapp.firebase.FirebaseUserEntity;
+import com.android.icecreamapp.model.Cart;
 import com.android.icecreamapp.util.UserHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -204,6 +206,7 @@ public class AccountFragment extends Fragment {
                 mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        Cart.orderLinesList.clear();
                         Intent intent = new Intent(getActivity(), LoginActivity.class);
                         startActivity(intent);
                     }

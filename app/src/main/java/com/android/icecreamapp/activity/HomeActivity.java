@@ -43,6 +43,9 @@ public class HomeActivity extends AppCompatActivity {
     private SearchFragment searchFragment;
     private FragmentStateManager fragmentStateManager;
 
+    @Override
+    public void onBackPressed() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

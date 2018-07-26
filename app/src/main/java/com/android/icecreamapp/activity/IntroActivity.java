@@ -27,6 +27,10 @@ public class IntroActivity extends AppCompatActivity {
     private int mCurrentPage;
 
     @Override
+    public void onBackPressed() {
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
